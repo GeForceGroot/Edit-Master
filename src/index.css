@@ -1,13 +1,120 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#slide{
+    border: 2px solid orange;
+    border-radius: 10px;
+    display: contents;
+}
+.col{
+    border: 5px solid grey;
+    border-radius: 4px;
+}
+#col1{
+    border: 4px solid rgb(178 67 19);
+    border-radius: 15px;
+}
+#col2{
+    border: 4px solid rgb(46 132 106);
+    border-radius: 15px;
+}
+#col3{
+    border: 4px solid rgb(40 102 157);
+    border-radius: 15px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media(max-width: 991.98px) { 
+
+    #phone{
+        display: inline-block;
+    }
+    .mx-4{
+        margin-top: px;
+    }
+    
+
+ }
+@media(max-width: 399.98px) { 
+    #channels{
+        display: inline-block;
+    }
+    .mx-4{
+        margin-top: px;
+    }
+ }
+ #out{
+    border: 2px solid black;
+ }
+ #cat{
+    margin-top: 150px;
+    border-radius: 100px;
+ }
+ @media(max-width: 991.98px) { 
+    #cat{
+
+    }
+ }
+
+ #eg{
+    border: none;
+    margin-right:120px;
+ }
+ #eg1{
+    border: none;
+    margin-right:150px;
+ }
+ #gory1{
+    border: none;
+ }
+ #gory2{
+    border: none;
+ }
+ #menu{
+    border: 2px solid black;
+    border-radius: 20px;
+    /* margin-left: auto; */
+    display: -webkit-inline-box;
+ width: 210px;
+ cursor: pointer;
+ }
+ #file_name{
+border: 2PX solid black;
+width: 210px;
+border-radius: 20px;
+display: -webkit-inline-box;
+height: 38px;
+margin-left: auto;
+ }
+ #cat_button{
+    border-radius: 12px;
+ }
+ #cat_button:hover{
+    color: lightblue;
+    cursor: pointer;
+ }
+ .Footer{
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
 }
+#mod{
+ opacity: 82%;
+    /* width: 500px; */
+    /* margin-left: px;
+    margin-top: 150px; */
+}
+#mid_mod{
+    border: none;
+}
+.modal-footer {
+border: none;
+}
+
+
+
+
+ 
+
+
+
+ 
+
+ 
