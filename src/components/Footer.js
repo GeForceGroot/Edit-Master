@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
 
-    <div className='Footer' style={{ position: 'relative'}}>
+    <div className='Footer' style={{ position: 'relative',height:'100%'}}>
       <footer className="text-center text-white " style={{ backgroundColor: "#f1f1f1" }}>
         {/* <!-- Grid container --> */}
         <div className="container pt-4">

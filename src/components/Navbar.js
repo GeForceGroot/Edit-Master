@@ -3,30 +3,25 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
     <nav className="navbar sticky-top navbar-expand-lg bg-body-tertiary">
-    <div className="container-fluid">
-      <Link className="navbar-brand" to="/">
-      <img src="https://seeklogo.com/images/P/pokeball-logo-DC23868CA1-seeklogo.com.png" alt="Logo" width="30" height="24" className="d-inline-block align-text-top mx-2"/>
-        Pokemon</Link>
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-            <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/about">About</Link>
-          </li>
-
-        </ul>
-        <form className="d-flex" role="search">
-          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button className="btn btn-outline-success" type="submit">Search</button>
-        </form>
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+          <img src="data:image/png;base64,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" alt="Logo" width="30" height="30" className="d-inline-block align-text-top mx-2" />
+          Edit_Master</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link active" aria-current="page" to="/">Home</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/about">About</Link>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
   )
 }
 

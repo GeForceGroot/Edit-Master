@@ -5,16 +5,13 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SetCategory from './SetCategory';
-// import InsertPopUp from './InsertPopUp';
-
-
+import UploadImage from './UploadImage';
 
 function App() {
   return (
     <>
       <Router>
         <Navbar />
-        {/* <InsertPopUp/> */}
         <Switch>
           <Route exact path='/'>
             <Home />
@@ -25,10 +22,12 @@ function App() {
           <Route exact path='/setCategory'>
             <SetCategory />
           </Route>
+          <Route exact path='/uploadImage'>
+            <UploadImage/>
+          </Route>
         </Switch>
         <Footer />
       </Router>
-
     </>
   );
 }

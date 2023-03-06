@@ -5,21 +5,35 @@ const OurChannels = () => {
         <>
             <div className="container my-5">
 
-                <h1 className="text-center my-5">Our Channel's</h1>
+                <h1 className="text-center my-5" style={{ color: 'darkgreen' }}>Our Centers</h1>
                 
                 <div className="container text-center">
                     <div className="row-cols-12 row" id="channels">
                         <div className="card col shadow p-4 mb-5 bg-body rounded mx-1" >
-                            <img src="https://logos-world.net/wp-content/uploads/2021/09/Nickelodeon-Logo.png" className="card-img-top" alt="Nickelodeon" />
+                            <img src="https://www.sac.gov.in/Vyom/images/SAC_C.JPG" className="card-img-top" alt="SAC ISRO" />
+                            <a target='_blank' href='https://www.isro.gov.in/SAC.html' rel="noopener noreferrer" id='sac'>
+                           <h5>Space Applications Centre (SAC)</h5>
+                            </a>
                         </div>
                         <div className="card col shadow p-4 mb-5 bg-body rounded mx-1" >
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cartoon_Network_logo_%282004-2010%29.svg/1000px-Cartoon_Network_logo_%282004-2010%29.svg.png" className="card-img-top" alt="Cartoon Network" />
+                            <img src="https://www.isro.gov.in/media_isro/image/centreimages/ursc.jpg.webp" className="card-img-top" alt="URSC ISRO" />
+                            <a target='_blank' href='https://www.ursc.gov.in/' rel="noopener noreferrer" id='sac1'>
+                           <h5>U R Rao Satellite Centre (URSC)</h5>
+                           </a>
                         </div>
                         <div className="card col shadow p-4 mb-5 bg-body rounded mx-1" >
-                            <img src="https://i.pinimg.com/originals/b3/b2/db/b3b2db5fdd1aa239645e170be3fe8d36.png" className="card-img-top" alt="Disney" />
+                            <img src="https://www.isro.gov.in/media_isro/image/centreimages/nrsc.jpg.webp" className="card-img-top" alt="NRSC ISRO" />
+                            <a target='_blank' href='https://www.nrsc.gov.in/' rel="noopener noreferrer" id='sac2'>
+
+                           <h5>National Remote Sensing Centre (NRSC)</h5>
+                  </a>
                         </div>
                         <div className="card col shadow p-4 mb-5 bg-body rounded mx-1" >
-                            <img src="https://i0.wp.com/magzoid.com/wp-content/uploads/2021/11/disney-logo-2.jpg?fit=684%2C482&ssl=1" className="card-img-top" alt="Disney" />
+                            <img src="https://www.vssc.gov.in/photgallery/GSLV_F10/2_large.jpg" className="card-img-top" alt="SDSC" />
+                            <a target='_blank' href='https://www.shar.gov.in/sdscshar/newAboutus.jsp' rel="noopener noreferrer" id='sac3'>
+
+                           <h5>Satish Dhawan Space Centre (SDSC)</h5>
+                  </a>
                         </div>
                     </div>
                 </div>

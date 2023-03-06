@@ -1,120 +1,236 @@
-#slide{
+#slide {
     border: 2px solid orange;
     border-radius: 10px;
     display: contents;
 }
-.col{
+
+.col {
     border: 5px solid grey;
     border-radius: 4px;
 }
-#col1{
-    border: 4px solid rgb(178 67 19);
-    border-radius: 15px;
-}
-#col2{
-    border: 4px solid rgb(46 132 106);
-    border-radius: 15px;
-}
-#col3{
-    border: 4px solid rgb(40 102 157);
+
+#col1 {
+    border: 3px solid rgb(41, 95, 121);;
     border-radius: 15px;
 }
 
-@media(max-width: 991.98px) { 
+#col2 {
+    border: 3px solid rgb(61, 128, 162);
+    border-radius: 15px;
+}
 
-    #phone{
+#col3 {
+    border: 3px solid rgb(41, 95, 121);
+    border-radius: 15px;
+}
+
+@media(max-width: 991.98px) {
+
+    #phone {
         display: inline-block;
     }
-    .mx-4{
+
+    .mx-4 {
         margin-top: px;
     }
-    
 
- }
-@media(max-width: 399.98px) { 
-    #channels{
+
+}
+
+@media(max-width: 399.98px) {
+    #channels {
         display: inline-block;
     }
-    .mx-4{
+
+    .mx-4 {
         margin-top: px;
     }
- }
- #out{
+}
+
+@media(min-width: 486px) and (max-width:771.99px) {
+    #cat_button {
+        margin: 70px;
+    }
+}
+
+@media (max-width: 485.99px) {
+    #in2 {
+        display: flex;
+    }
+}
+
+#out {
     border: 2px solid black;
- }
- #cat{
+}
+
+#cat {
     margin-top: 150px;
     border-radius: 100px;
- }
- @media(max-width: 991.98px) { 
-    #cat{
+}
 
-    }
- }
+@media(max-width: 991.98px) {
+    #cat {}
+}
 
- #eg{
+#eg {
     border: none;
-    margin-right:120px;
- }
- #eg1{
+    margin-right: 120px;
+}
+
+#eg1 {
     border: none;
-    margin-right:150px;
- }
- #gory1{
+    margin-right: 150px;
+}
+
+#gory1 {
     border: none;
- }
- #gory2{
+}
+
+#gory2 {
     border: none;
- }
- #menu{
+}
+
+#menu {
     border: 2px solid black;
     border-radius: 20px;
     /* margin-left: auto; */
     display: -webkit-inline-box;
- width: 210px;
- cursor: pointer;
- }
- #file_name{
-border: 2PX solid black;
-width: 210px;
-border-radius: 20px;
-display: -webkit-inline-box;
-height: 38px;
-margin-left: auto;
- }
- #cat_button{
+    width: 210px;
+    cursor: pointer;
+}
+
+#file_name {
+    border: 2PX solid black;
+    width: 210px;
+    border-radius: 20px;
+    display: -webkit-inline-box;
+    height: 38px;
+    margin-left: auto;
+}
+
+#cat_button {
     border-radius: 12px;
- }
- #cat_button:hover{
+}
+
+#cat_button:hover {
     color: lightblue;
     cursor: pointer;
- }
- .Footer{
+}
+
+.Footer {
     position: fixed;
     height: 100px;
     bottom: 0;
     width: 100%;
 }
-#mod{
- opacity: 82%;
+
+#mod {
+    opacity: 82%;
     /* width: 500px; */
     /* margin-left: px;
     margin-top: 150px; */
 }
-#mid_mod{
+
+#mid_mod {
     border: none;
 }
+
 .modal-footer {
-border: none;
+    border: none;
 }
-
-
-
-
- 
-
-
-
- 
-
- 
+#chan1{
+    border: 3px solid #0a530a;
+    box-shadow: 6cap;
+}
+#chan2{
+    border: 3px solid #0a530a;
+    box-shadow: 6cap;
+}
+#chan3{
+    border: 3px solid #0a530a;
+    box-shadow: 6cap;
+}
+#chan4{
+    border: 3px solid #0a530a;
+    box-shadow: 6cap;
+}
+#sac{
+    color: #022b02;
+}
+#sac1{
+    color: #022b02;
+}
+#sac2{
+    color: #022b02;
+}
+#sac3{
+    color: #022b02;
+}
+#sac3:hover{
+    color: #087908;
+    cursor: grab;
+}
+#sac2:hover{
+    color: #087908;
+    cursor: grab;
+}
+#sac1:hover{
+    color: #087908;
+    cursor: grab;
+}
+#sac:hover{
+    color: #087908;
+    cursor: grab;
+}
+#secat{
+    display: flex;
+    justify-content: center;
+   padding: 80px;
+   margin-bottom: 30px;
+}
+#secat{
+    display: flex;
+    justify-content: center;
+    padding: 80px;
+    margin-bottom: 30px;
+}
+#secat1{
+    display: flex;
+    justify-content: center;
+    padding: 80px;
+    margin-bottom: 30px;
+}
+.uploadImage{
+    /* border: 4px solid black; */
+    display: flex;
+    justify-content: center;
+   height: 600px;
+}
+#upImg{
+    /* border: 4px solid rebeccapurple; */
+    height: 500px;
+    margin: 50px;     
+}
+#uploadImg{
+     border: 3px solid rgb(0, 140, 255);
+     border-radius:10px
+}
+#chooseFile{
+    /* border: 3px solid #186584; */
+    border-radius: 10px;
+}
+#loadUp{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #53aecb;
+}
+#upImgLoad{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #9ed7e9;
+}
+#images{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #cce2e9;
+}

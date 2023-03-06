@@ -12,21 +12,21 @@ const Slide = () => {
     </div>
     <div className="carousel-inner">
       <div className="carousel-item active" data-bs-interval="10000">
-        <img src="https://cdn.vox-cdn.com/thumbor/TpSR9XxMkMsxNE5i25oTkWoBV0U=/0x0:2257x1320/1200x628/filters:focal(1129x660:1130x661)/cdn.vox-cdn.com/uploads/chorus_asset/file/6839749/pokemon.0.png" className="d-block w-100" alt="..."/>
+        <img src="https://miro.medium.com/max/1400/1*BJbkwJOjvUoW3dOlBoYUOQ.jpeg" width='800px' height='800px' className="d-block w-100" alt="..."/>
         <div className="carousel-caption d-none d-md-block">
           <h5>First slide label</h5>
           <p>Some representative placeholder content for the first slide.</p>
         </div>
       </div>
       <div className="carousel-item" data-bs-interval="2000">
-        <img src="https://media.distractify.com/brand-img/GtWV3KNti/1200x628/pokemon-go-1635971532697.png" className="d-block w-100" alt="..."/>
+        <img src="https://animationexplainers.com/wp-content/uploads/2022/03/Video-Editing-1200x720.jpg" width='800px' height='800px' className="d-block w-100" alt="..."/>
         <div className="carousel-caption d-none d-md-block">
           <h5>Second slide label</h5>
           <p>Some representative placeholder content for the second slide.</p>
         </div>
       </div>
       <div className="carousel-item">
-        <img src="https://cdn.vox-cdn.com/thumbor/YcQdm21yC75vP33AQelN4a5GybI=/0x0:1920x1080/1200x628/filters:focal(960x540:961x541)/cdn.vox-cdn.com/uploads/chorus_asset/file/24185682/Ash_Ketchum_World_Champion_Screenshot_4.jpg" className="d-block w-100" alt="..."/>
+        <img src="https://d17mj1ha1c2g57.cloudfront.net/v1/aEfKXcfQlyM0JupP3CtcFEtsybA/800x450%23/80/shotsmag/production/clips/48656ba2-3ca1-4a23-ad55-69f6c3e665fd/gettyimages-1224777996.jpg?v=1&quality=80&format=jpeg" width='800px' height='800px' className="d-block w-100" alt="..."/>
         <div className="carousel-caption d-none d-md-block">
           <h5>Third slide label</h5>
           <p>Some representative placeholder content for the third slide.</p>
