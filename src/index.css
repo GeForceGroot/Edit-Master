@@ -234,3 +234,25 @@
     border-radius: 10px;
     background-color: #cce2e9;
 }
+/* #textIn{
+justify-content: center;
+border: 5px solid black;
+} */
+#text-input{
+    border: 3px solid rgb(0, 140, 255);
+}
+#EnterText{
+    font-size: 1.5rem;
+    color: #186584;
+ font-weight: bold;
+}
+#converText{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #53aecb;
+    margin-left: 585px;
+}
+#root{
+    /* border: 4px solid black; */
+    background-color: #b1b5b7a1;
+}

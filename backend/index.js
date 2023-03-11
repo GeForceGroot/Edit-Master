@@ -157,8 +157,12 @@ const imageFilter = function (req, file, cb) {
 const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('files'), (req, res) => {
-  console.log(req.files); // This will log the uploaded files
+  console.log(req.files); 
+  
+  // This will log the uploaded files
+
   res.send(`${req.files.length} file(s) uploaded successfully.`);
+  
 });
 
 
@@ -167,13 +171,8 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
 
 AWS.config.update({
   region: 'us-west-2',
-<<<<<<< HEAD
-  accessKeyId: 'Enter Your AccessKey',
-  secretAccessKey: 'Enter Your SecretAccessKey',
-=======
   accessKeyId: 'AKIASLMUWRQ47265KCAL',
   secretAccessKey: 'tDyZA2U5um9Hid/u75ilHK6a0i6OfzuzB9KwelJP',
->>>>>>> 6a2efb5 (new commit)
 });
 
 
