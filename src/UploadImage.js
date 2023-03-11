@@ -4,13 +4,19 @@ import axios from 'axios';
 // import CategorySelect from './CategorySelect';
 // import { CategoryID, folderName } from './CategorySelect';
 import { useLocation } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
 const UploadImage = (props) => {
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const [text, setText] = useState('');
+
   const location = useLocation();
+  const history = useHistory();
   const categoryId = location.state.categoryId;
   const folderName = location.state.folderName;
 
@@ -28,6 +34,7 @@ const UploadImage = (props) => {
         }
       });
       setUploadStatus(response.data);
+      
     } catch (error) {
       console.log('Error uploading images', error);
       setUploadStatus('Error uploading images');
@@ -38,6 +45,13 @@ const UploadImage = (props) => {
   };
 
 
+const handleTextChange = (event) => {
+  setText(event.target.value);
+};
+  
+  
+
+
   const handleGetCategories = async () => {
     try {
       const response = await axios.get('http://localhost:8000/allCategories');
@@ -46,6 +60,23 @@ const UploadImage = (props) => {
       console.log('Error getting categories', error);
     }
   };
+
+
+  const handleConvertClick = () => {
+
+    // Send a POST request to server to convert text
+axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/tts`, {
+  category: categoryId,
+  folder: folderName,
+  text: text
+  })
+  .then(response => {
+    console.log('Conversion successful', response.data);
+    // Clear text input
+    setText('');
+    })
+    .catch(error => console.log('Error converting text', error));
+  }
 
 
 
@@ -72,6 +103,13 @@ const UploadImage = (props) => {
           </div>
         </div>
       </div>
+      <di className="container">
+      <div>
+<label htmlFor="text-input">Text:</label>
+<textarea id="text-input" value={text} onChange={handleTextChange}></textarea>
+</div>
+<button onClick={handleConvertClick}>Convert</button>
+      </di>
     </>
   )
 }

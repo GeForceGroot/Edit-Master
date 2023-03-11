@@ -6,12 +6,14 @@ import Home from './components/Home';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SetCategory from './SetCategory';
 import UploadImage from './UploadImage';
+import TextToSpeech from './TextToSpeech';
 
 function App() {
   return (
     <>
       <Router>
         <Navbar />
+        
         <Switch>
           <Route exact path='/'>
             <Home />
@@ -24,6 +26,9 @@ function App() {
           </Route>
           <Route exact path='/uploadImage'>
             <UploadImage/>
+          </Route>
+          <Route exact path='/TextToSpeech'>
+          <TextToSpeech/>
           </Route>
         </Switch>
         <Footer />

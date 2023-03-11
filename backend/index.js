@@ -6,6 +6,7 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const AWS = require('aws-sdk');
 
 
 const app = express();
@@ -38,7 +39,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-// GET all categories
+// GET all categorie]
 
 app.get('/allCategories', async (req, res) => {
   try {
@@ -159,6 +160,66 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
   console.log(req.files); // This will log the uploaded files
   res.send(`${req.files.length} file(s) uploaded successfully.`);
 });
+
+
+
+// Text-To-Speech 
+
+AWS.config.update({
+  region: 'us-west-2',
+<<<<<<< HEAD
+  accessKeyId: 'Enter Your AccessKey',
+  secretAccessKey: 'Enter Your SecretAccessKey',
+=======
+  accessKeyId: 'AKIASLMUWRQ47265KCAL',
+  secretAccessKey: 'tDyZA2U5um9Hid/u75ilHK6a0i6OfzuzB9KwelJP',
+>>>>>>> 6a2efb5 (new commit)
+});
+
+
+// Add a new endpoint for Text-To-Speech conversion
+
+app.post('/allCategories/:categoryId/folders/:folderName/tts', async (req, res) => {
+  const { categoryId, folderName } = req.params;
+  const text = req.body.text;
+
+  // Check if category exists
+
+  const category = await Category.findById(categoryId);
+  if (!category) {
+    return res.status(404).send('Category not found');
+  }
+
+  // Check if folder exists
+
+  const folderPath = path.join(__dirname, `./public/images/${categoryId}/${folderName}`);
+  if (!fs.existsSync(folderPath)) {
+    // console.log('helooooo')
+    return res.status(404).send('Folder not found');
+  }
+
+  // Generate MP3 file using Amazon Polly
+
+  const polly = new AWS.Polly();
+  const params = {
+    Text: text,
+    OutputFormat: 'mp3',
+    VoiceId: 'Joanna',
+  };
+  try {
+    const data = await polly.synthesizeSpeech(params).promise();
+
+    // Save MP3 file in folder
+    const filePath = path.join(folderPath, `${Date.now()}.mp3`);
+    fs.writeFileSync(filePath, data.AudioStream);
+
+    res.send(`Saved MP3 file: ${filePath}`);
+  } catch (error) {
+    console.log('Error generating MP3 file', error);
+    res.status(500).send('Error generating MP3 file');
+  }
+});
+
 
 
 
