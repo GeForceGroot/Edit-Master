@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import CategorySelect from './CategorySelect';
 const SetCategory = () => {
+  
   //  route 1 : To add new category in database
+
   const [category, setCategory] = useState('');
   const handleSubmit = (event) => {
     event.preventDefault();
