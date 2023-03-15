@@ -6,28 +6,28 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const { exec } = require('child_process');
 const AWS = require('aws-sdk');
 const { spawn } = require('child_process');
-const { exec } = require('child_process');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
-const groupName = 'NodeJS'
-exec(`net localgroup ${groupName} /add`, (err, stdout, stderr) => {
-  if (err) {
-    console.error(`Error executing command: ${err}`);
-    return;
-  }
+// const groupName = 'NodeJS'
+// exec(`net localgroup ${groupName} Tiwar /add`, (err, stdout, stderr) => {
+//   if (err) {
+//     console.error(`Error executing command: ${err}`);
+//     return;
+//   }
 
-  if (stderr) {
-    console.error(`Command returned an error: ${stderr}`);
-    return;
-  }
+//   if (stderr) {
+//     console.error(`Command returned an error: ${stderr}`);
+//     return;
+//   }
 
-  console.log(`Group '${groupName}' created`);
-});
+//   console.log(`Group '${groupName}' created`);
+// });
 
 // Deal to frontend and backend
 
@@ -83,7 +83,7 @@ app.get('/allCategories', async (req, res) => {
 
 app.post('/allCategories/:id/folders', async (req, res) => {
   const categoryId = req.params.id;
-  const categorName = req.params.name;
+  // const categorName = req.params.name;
   const folderName = req.body.name;
 
   // Check if category already exists
@@ -167,8 +167,8 @@ const storage = multer.diskStorage({
       if (err) {
         return cb(new Error('Failed to create folder'));
       }
-
       cb(null, folderPath);
+      cb(null, 'uploads/');
     });
   },
   filename: function (req, file, cb) {
@@ -178,6 +178,8 @@ const storage = multer.diskStorage({
     const ext = path.extname(file.originalname);
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
     cb(null, filename);
+    cb(null, `${Date.now()}-${file.originalname}`);
+
   }
 });
 
@@ -261,13 +263,13 @@ app.post('/allCategories/:categoryId/folders/:folderName/tts', upload.single('mp
     fs.writeFileSync(filePath, data.AudioStream);
 
 
-// Send response
+    // Send response
 
     res.send(`Saved MP3 file: ${filePath}`);
   } catch (error) {
     console.log('Error generating MP3 file', error);
     res.status(500).send('Error generating MP3 file');
-    
+
   }
 });
 
@@ -277,29 +279,27 @@ app.post('/allCategories/:categoryId/folders/:folderName/tts', upload.single('mp
 // End point for generating video file
 
 
+
 app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
   const { categoryId, folderName } = req.params;
+  // const { fps, height, width } = req.body;
 
   // Validate the categoryId and folderName parameters
+
   if (!categoryId || !folderName) {
     return res.status(400).json({ error: 'Missing categoryId or folderName parameter' });
   }
 
   // Set up the input and output paths
-  const inputPath = path.join(__dirname, '../../../videoGenImg');
-  const outputPath = path.join(__dirname, `public/videos/${categoryId}/${folderName}.mp4`);
+
+  const inputPath = path.join(__dirname, './uploads');
+  const outputPath = path.join(__dirname, './videos');
 
   // Check that the input directory exists
-  fs.access(inputPath, fs.constants.F_OK, (err) => {
-    if (err) {
-      return res.status(400).json({ error: 'Input directory does not exist' });
-    }
+  // const files = fs.readdirSync(`${inputPath}`).sort((a, b) => a - b);
+  const ffmpegCommand = ffmpeg();
 
-    // Use ffmpeg to create the video
-    const ffmpegCommand = ffmpeg();
-
-    // Add the input images based on the file format
-    const fileFormat = path.extname(fs.readdirSync(inputPath)[0]);
+  const fileFormat = path.extname(fs.readdirSync(inputPath)[0]);
     if (fileFormat === '.jpg') {
       ffmpegCommand.input(`${inputPath}`, '%03d.jpg');
     } else if (fileFormat === '.png') {
@@ -311,11 +311,22 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
       ffmpegCommand.input(`-f concat -i ${fileListPath}`);
     }
 
+
+    // Add the input images based on the file format
+
+    
+
     ffmpegCommand
-      .output(outputPath) // set the output path
-      .fps(30) // set the frame rate to 30 frames per second
+      // set the output path
+
+      .output(outputPath)
+
+      // set the frame rate to 30 frames per second
+      .fps(30)
       .on('end', () => {
+
         // Send the response with the path to the generated video
+
         res.json({ videoPath: outputPath });
       })
       .on('error', (err) => {
@@ -323,7 +334,7 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
         res.status(500).json({ error: 'Error generating video' });
       })
       .run();
-  });
+  
 });
 
 
@@ -340,8 +351,8 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 
 
 
-// // define route for video generation
-// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', upload.array('files'), (req, res) => {
+// define route for video generation
+// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', upload.single('files'), (req, res) => {
 //   const audioFile = req.files.find((file) => file.fieldname === 'audio');
 //   const videoFiles = req.files.filter((file) => file.fieldname === 'files');
 
