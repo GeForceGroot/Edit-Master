@@ -1,0 +1,6 @@
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/1678903350235-941270758.jpg'
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/1678903350248-366935909.jpg'
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/1678903350276-535100120.jpg'
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/1678903350357-240501393.jpg'
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/1678903350383-134167503.jpg'
+file 'F:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\usmaniya/image_list.txt'

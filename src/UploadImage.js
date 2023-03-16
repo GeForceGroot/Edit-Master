@@ -56,13 +56,6 @@ const UploadImage = (props) => {
     setText(event.target.value);
   };
 
-  const handleFpsChange = (event) => {
-    setFps(event.target.value);
-  };
-
-  const handleHeightChange = (event) => {
-    setHeight(event.target.value);
-  };
 
   const handleWidthChange = (event) => {
     setWidth(event.target.value);
@@ -111,21 +104,24 @@ const UploadImage = (props) => {
   const handleVideoGen = (event) => {
     event.preventDefault();
     
-    const formData = new FormData();
-    images.forEach((image) => {
-      formData.append('images', image);
-    });
-    formData.append('framerate', framerate);
-    formData.append('outputFormat', outputFormat);
+    // const formData = new FormData();
+    // images.forEach((image) => {
+    //   formData.append('images', image);
+    // });
+    // formData.append('framerate', framerate);
+    // formData.append('outputFormat', outputFormat);
     
-    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then((response) => {
-      setVideoUrl(URL.createObjectURL(response.data));
-    }).catch((error) => {
-      console.error(error);
+    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`)  
+    .then(response => {
+      const videoUrl = URL.createObjectURL(response.data);
+      const a = document.createElement('a');
+      a.href = videoUrl;
+      a.download = 'video.mp4';
+      a.click();
+      URL.revokeObjectURL(videoUrl);
+    })
+    .catch(error => {
+      console.log(error);
     });
   }
 
@@ -170,19 +166,6 @@ const UploadImage = (props) => {
         <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} />
         <div className="mb-3">
           <div className="text-center">
-          <label htmlFor="fps">FPS:</label>
-          <input type="number" value={framerate} onChange={handleFramerateChange} />
-
-          <label>
-          Output Format:
-          <select value={outputFormat} onChange={handleOutputFormatChange}>
-            <option value="mp4">MP4</option>
-            <option value="webm">WebM</option>
-            <option value="gif">GIF</option>
-          </select>
-        </label>
-      <label htmlFor="width">Width:</label>
-      <input type="text" name="width" value={width} onChange={handleWidthChange} /><br />
             <button className="btn btn-primary" onClick={handleVideoGen} id='genVid'>Generate Video</button>
             {videoUrl && <video src={videoUrl} controls />}
           </div>

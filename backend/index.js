@@ -11,6 +11,7 @@ const AWS = require('aws-sdk');
 const { spawn } = require('child_process');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
+const { count } = require('console');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
@@ -168,7 +169,7 @@ const storage = multer.diskStorage({
         return cb(new Error('Failed to create folder'));
       }
       cb(null, folderPath);
-      cb(null, 'uploads/');
+      // cb(null, './uploads');
     });
   },
   filename: function (req, file, cb) {
@@ -178,7 +179,7 @@ const storage = multer.diskStorage({
     const ext = path.extname(file.originalname);
     const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
     cb(null, filename);
-    cb(null, `${Date.now()}-${file.originalname}`);
+    // cb(null, `${Date.now()}-${file.originalname}`);
 
   }
 });
@@ -212,8 +213,8 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
 
 AWS.config.update({
   region: 'us-west-2',
-  accessKeyId: 'AKIASLMUWRQ47265KCAL',
-  secretAccessKey: 'tDyZA2U5um9Hid/u75ilHK6a0i6OfzuzB9KwelJP',
+  accessKeyId: 'Your_Access_Key_Id',
+  secretAccessKey: 'Your_Secret_Access_Key',
 });
 
 
@@ -279,63 +280,321 @@ app.post('/allCategories/:categoryId/folders/:folderName/tts', upload.single('mp
 // End point for generating video file
 
 
+// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
+//   const { categoryId, folderName } = req.params;
+//   const imagesPath = path.join(__dirname, `./public/images/${categoryId}/${folderName}`);
+//   // const outputVideoPath = path.join(__dirname, 'public/videos');
+//   // const fileListPath = path.join(imagesPath, 'filelist.txt');
+//   const videoName = 'video.mp4';
+
+//   // Write the list of image file paths to the filelist.txt file
+
+//  if (!fs.existsSync(imagesPath)) {
+//     return res.status(400).send('Images directory does not exist');
+//   }
+
+//   const fps = 25;
+//   // Get list of image filenames
+//   const images = fs.readdirSync(imagesPath)
+//     .filter(filename => filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png'))
+//     .map(filename => path.join(imagesPath, filename));
+
+//     // console.log(__dirname)
+
+   
+//   // Check if there are any images
+//   if (images.length === 0) {
+//     return res.status(400).send('No images found');
+//   }
+
+//   // Create ffmpeg command to generate video from images
+//   const ffmpegCommand = ffmpeg();
+//   images.forEach(image => {
+//     ffmpegCommand.input(image);
+//   });
+//  ffmpegCommand.outputOptions('-framerate', fps, '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-vf', 'scale=1920:1280', '-r', '1/10');
+//   ffmpegCommand.output(path.join(imagesPath, videoName));
+
+//   // Execute ffmpeg command
+//   ffmpegCommand.on('end', () => {
+//     res.sendFile(path.join(imagesPath, videoName), () => {
+//       // Delete uploaded images and video file
+//       fs.readdirSync(imagesPath)
+//         // .forEach(filename => fs.unlinkSync(path.join(imagesPath, filename)));
+//       // fs.unlinkSync(path.join(imagesPath, videoName));
+//     });
+//   });
+//   ffmpegCommand.run();
+
+// });
+
+
+
+
+// **********************   Main ********************
+
+
+
+
 
 app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
   const { categoryId, folderName } = req.params;
-  // const { fps, height, width } = req.body;
+  const imagesPath = path.join(__dirname, `public/images/${categoryId}/${folderName}`);
+  const outputVideoPath = path.join(__dirname, `public/images/${categoryId}/${folderName}/video.mp4`);
+  const fileListPath = path.join(imagesPath, 'filelist.txt');
+ const fps = 30;
+  // Write the list of image file paths to the filelist.txt file
+  const fileList = fs.readdirSync(imagesPath)
+  // filter all image types
+  .filter(file => (/\.(jpg|jpeg|png|gif)$/i).test(file)) 
+  .sort((a, b) => parseInt(a) - parseInt(b))
+  .map(file => `file '${path.join(imagesPath, file)}'`)
+  .join('\n');
+fs.writeFileSync(fileListPath, fileList);
 
-  // Validate the categoryId and folderName parameters
+  // Use FFmpeg to generate a video from the list of images
+  const ffmpegProcess = spawn('ffmpeg', [
+    '-r', '1/3',
+    '-f', 'concat',
+    '-safe', '0',
+    '-i', fileListPath,
+    '-vf', 'scale=-2:720',
+    '-c:v', 'libx264',
+    '-pix_fmt', 'yuv420p',
+    '-movflags', '+faststart',
+    outputVideoPath
+  ]);
+  
 
-  if (!categoryId || !folderName) {
-    return res.status(400).json({ error: 'Missing categoryId or folderName parameter' });
-  }
+  // Listen for errors and output messages from the FFmpeg process
+  ffmpegProcess.stderr.on('data', (data) => {
+    console.error(`FFmpeg error: ${data}`);
+  });
 
-  // Set up the input and output paths
+  ffmpegProcess.stdout.on('data', (data) => {
+    console.log(`FFmpeg output: ${data}`);
+  });
 
-  const inputPath = path.join(__dirname, './uploads');
-  const outputPath = path.join(__dirname, './videos');
-
-  // Check that the input directory exists
-  // const files = fs.readdirSync(`${inputPath}`).sort((a, b) => a - b);
-  const ffmpegCommand = ffmpeg();
-
-  const fileFormat = path.extname(fs.readdirSync(inputPath)[0]);
-    if (fileFormat === '.jpg') {
-      ffmpegCommand.input(`${inputPath}`, '%03d.jpg');
-    } else if (fileFormat === '.png') {
-      ffmpegCommand.input(`${inputPath}`, '*.png');
+  ffmpegProcess.on('close', (code) => {
+    console.log(`FFmpeg process exited with code ${code}`);
+    if (code === 0) {
+      res.send(`Video generated successfully: ${outputVideoPath}`);
     } else {
-      const fileListPath = path.join(inputPath, 'image_list.txt');
-      const fileListContent = fs.readdirSync(inputPath).map((filename) => `file '${inputPath}/${filename}'`).join('\n');
-      fs.writeFileSync(fileListPath, fileListContent);
-      ffmpegCommand.input(`-f concat -i ${fileListPath}`);
+      res.status(500).send('Failed to generate video');
     }
+    // Remove the filelist.txt file
+    fs.unlinkSync(fileListPath);
+  });
+});
 
 
-    // Add the input images based on the file format
+
+
+
+
+
+
+// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
+//   const { categoryId, folderName } = req.params;
+//   const imagesPath = path.join(__dirname, `public/images/${categoryId}/${folderName}`);
+//   const outputVideoPath = path.join(__dirname, 'public/videos/video.mp4');
+//   const fileListPath = path.join(imagesPath, 'filelist.txt');
+//   // const videoName = 'video.mp4';
+
+//   // Write the list of image file paths to the filelist.txt file
+//   const fileList = fs.readdirSync(imagesPath)
+//     .filter(file => file.endsWith('.jpg'))
+//     .sort((a, b) => parseInt(a) - parseInt(b))
+//     .map(file => `file '${path.join(imagesPath, file)}'`)
+//     .join('\n');
+//   fs.writeFileSync(fileListPath, fileList);
+
+
+//   const ffmpegProcess = spawn('ffmpeg', [
+//     '-f', 'concat',
+//     '-safe', '0',
+//     '-i', fileListPath,
+//     '-c:v', 'libx264',
+//     '-pix_fmt', 'yuv420p',
+//     '-movflags', '+faststart',
+//     outputVideoPath
+//   ]);
+
+//   ffmpegProcess.on('end', () => {
+//     console.log('Video created successfully');
+//   })
+//   ffmpegProcess.on('error', (err) => {
+//     console.error('Error creating video:', err);
+//   })
+//   .run();
+  
+//   // const ffmpegProcess = ffmpeg();
+//   // Use FFmpeg to generate a video from the list of images
+  
+//   // ffmpegProcess.run();
+//   console.log('heloooooo')
+
+  
+//     // Remove the filelist.txt file
+//     // fs.unlinkSync(fileListPath);
+ 
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
+//   const { categoryId, folderName } = req.params;
+//   const videoName = 'video.mp4';
+//   // const { files } = req;
+
+//   // Validate the uploaded files
+
+//   // if (!files || !Array.isArray(files) || files.length === 0) {
+//   //   return res.status(400).send('No files uploaded');
+//   // }
+
+//   // Convert the uploaded images to a video using FFmpeg
+
+//   // const videoPath = path.join(__dirname, 'public/videos/output.mp4');
+//   const imagePaths = path.join(__dirname, `./public/images/${categoryId}/${folderName}`);
+//   const fps = 30;
+
+//   const images = fs.readdirSync(imagePaths)
+//     .filter(filename => filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.png'))
+//     .map(filename => path.join(imagePaths, filename));
+
+//     // console.log(images);
+
+//     const ffmpegCommand = ffmpeg();
+//   images.forEach(image => {
+//     ffmpegCommand.input(image);
+//   });
+
+
+//   ffmpegCommand.outputOption(
+//     '-y', 
+//     '-framerate', fps,
+//     '-vf', `scale='if(gt(a,16/9),1280,-1)':if(gt(a,16/9),-1,720),setdar=16/9`,
+//     '-pix_fmt', 'yuv420p',
+//     '-c:v', 'libx264',
+//     '-crf', '18',
+//     '-preset', 
+//     'slow'
+//   );
+
+//   ffmpegCommand.output(path.join(imagePaths, videoName))
+
+//   // Handle FFmpeg output and errors
+
+//   ffmpegCommand.on('end', () => {
+//         res.sendFile(path.join(imagePaths, videoName), () => {
+//           // Delete uploaded images and video file
+//           fs.readdirSync(imagePaths)
+//             // .forEach(filename => fs.unlinkSync(path.join(imagesPath, filename)));
+//           // fs.unlinkSync(path.join(imagesPath, videoName));
+//         });
+//       });
+//       ffmpegCommand.run();
+//       console.log('heloooooooooooo');
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
+//   const { categoryId, folderName } = req.params;
+//   // const { fps, height, width } = req.body;
+
+//   // Validate the categoryId and folderName parameters
+
+//   if (!categoryId || !folderName) {
+//     return res.status(400).json({ error: 'Missing categoryId or folderName parameter' });
+//   }
+
+//   // Set up the input and output paths
+
+//   const inputPath = path.join(__dirname, `./public/images/${categoryId}/${folderName}`);
+//   const outputPath = path.join(__dirname, `./public/images/${categoryId}/${folderName}`);
+
+//   // Check that the input directory exists
+//   // const files = fs.readdirSync(`${inputPath}`).sort((a, b) => a - b);
+//   const ffmpegCommand = ffmpeg();
+
+//   const fileFormat = path.extname(fs.readdirSync(__dirname)[0]);
+//     if (fileFormat === '.jpg') {
+//       ffmpegCommand.input(`${inputPath}`, '%03d.jpg');
+//     } else if (fileFormat === '.png') {
+//       ffmpegCommand.input(`${inputPath}`, '*.png');
+//     } else {
+//       const fileListPath = path.join(inputPath, 'image_list.txt');
+//       const fileListContent = fs.readdirSync(inputPath).map((filename) => `file '${inputPath}/${filename}'`).join('\n');
+//       fs.writeFileSync(fileListPath, fileListContent);
+//       ffmpegCommand.input(`${fileListPath}`);
+//     }
+
+
+//     // Add the input images based on the file format
 
     
 
-    ffmpegCommand
-      // set the output path
+//     ffmpegCommand
+//       // set the output path
 
-      .output(outputPath)
+//       .output(outputPath)
 
-      // set the frame rate to 30 frames per second
-      .fps(30)
-      .on('end', () => {
+//       // set the frame rate to 30 frames per second
+//       .fps(30)
+//       .on('end', () => {
 
-        // Send the response with the path to the generated video
+//         // Send the response with the path to the generated video
 
-        res.json({ videoPath: outputPath });
-      })
-      .on('error', (err) => {
-        console.log('Error generating video:', err);
-        res.status(500).json({ error: 'Error generating video' });
-      })
-      .run();
+//         res.json({ videoPath: outputPath });
+//       })
+//       .on('error', (err) => {
+//         console.log('Error generating video:', err);
+//         res.status(500).json({ error: 'Error generating video' });
+//       })
+//       .run();
   
-});
+// });
 
 
 
