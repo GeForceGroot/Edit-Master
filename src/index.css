@@ -256,3 +256,12 @@ border: 5px solid black;
     /* border: 4px solid black; */
     background-color: #b1b5b7a1;
 }
+#allVid{
+    border: 3px solid rgb(98, 98, 186);
+    border-radius: 10px;
+    justify-content: center;
+}
+#vid{
+    border: 3px solid rgb(98, 98, 186);
+    border-radius: 10px;
+}

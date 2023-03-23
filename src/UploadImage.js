@@ -5,6 +5,7 @@ import axios from 'axios';
 // import { CategoryID, folderName } from './CategorySelect';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import { useEffect } from 'react';
 
 const UploadImage = (props) => {
 
@@ -29,6 +30,9 @@ const UploadImage = (props) => {
   const [generateVideoResult, setGenerateVideoResult] = useState('');
   const [mergeVideosResult, setMergeVideosResult] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [videoName, setVideoName] = useState('');
+
 
 
   const location = useLocation();
@@ -83,6 +87,7 @@ const UploadImage = (props) => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
   
 
   const handleVideoSubmit = async (event) => {
@@ -97,7 +102,7 @@ const UploadImage = (props) => {
     formData.append('video', selectedFile);
   
     try {
-      const response = await axios.post('/uploadVideos', formData);
+      const response = await axios.post('http://localhost:8000/uploadVideos', formData);
   
       if (response.status === 200) {
         alert('File uploaded successfully.');
@@ -192,6 +197,26 @@ const UploadImage = (props) => {
       setErrorMessage('An error occurred while merging the videos.');
     }
   };
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const response = await axios.get('http://localhost:8000/videos');
+        setVideos(response.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchVideos();
+  }, []);
+
+
+  // Handle video deletion
+  const handleDeleteVideo = (videoName) => {
+    axios.delete(`http://localhost:8000/videos/${videoName}`)
+      .then(() => setVideos(videos.filter(video => video.name !== videoName)))
+      .catch(error => console.error(error));
+  }
+  
 
   return (
     <>
@@ -266,6 +291,18 @@ const UploadImage = (props) => {
           {mergeVideosResult && <p>{mergeVideosResult}</p>}
         </div>
       </div>
+      <div >
+      <h1>Videos List</h1>
+      {videos.map(video => (
+        <div key={video.path} >
+          <div className='container my-2 text-center' id='allVid'>
+          <button onClick={() => handleDeleteVideo(video.name)}>Delete</button>
+          <h2>{video.name}</h2>
+          <video src={video.path} controls></video>
+          </div>
+        </div>
+      ))}
+    </div>
     </>
   )
 }

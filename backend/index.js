@@ -246,7 +246,7 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
 
 // ******************** Task 6 **********************
 
-let videoCounter = 6;
+let videoCounter = 1;
 
 
 
@@ -562,11 +562,10 @@ app.post('/convert_videos', async (req, res) => {
 
 // ************************  Task 10 Make a list of all video *******************
 
-
+const folderPath = './uploads';
+const videoExtensions = ['.mp4', '.avi', '.mkv']
 
 app.get('/videos', (req, res) => {
-  const folderPath = './uploads';
-  const videoExtensions = ['.mp4', '.avi', '.mkv'];
   const videos = [];
 
   // Read all files in the folder
@@ -590,6 +589,31 @@ app.get('/videos', (req, res) => {
 });
 
 
+
+// ******************************************************************************
+
+app.delete('/videos/:videoName', (req, res) => {
+  const videoName = req.params.videoName;
+  const videoPath = path.join(folderPath, videoName + '.mp4'); // assuming all video files have the .mp4 extension
+
+  // Check if the video file exists
+  fs.access(videoPath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(404).send('Video not found');
+    }
+
+    // Delete the video file
+    fs.unlink(videoPath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Internal server error');
+      }
+
+      res.send('Video deleted successfully');
+    });
+  });
+});
 
 // ******************************************************************************
 
