@@ -560,6 +560,40 @@ app.post('/convert_videos', async (req, res) => {
 
 // ******************************************************************************
 
+// ************************  Task 10 Make a list of all video *******************
+
+
+
+app.get('/videos', (req, res) => {
+  const folderPath = './uploads';
+  const videoExtensions = ['.mp4', '.avi', '.mkv'];
+  const videos = [];
+
+  // Read all files in the folder
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Internal server error');
+    }
+
+    // Filter files to only include video files
+    files.filter(file => videoExtensions.includes(path.extname(file))).forEach(file => {
+      const video = {
+        name: path.basename(file, path.extname(file)),
+        path: path.join(folderPath, file)
+      };
+      videos.push(video);
+    });
+
+    res.json(videos);
+  });
+});
+
+
+
+// ******************************************************************************
+
+
 // Start the server
 
 const port = 8000;

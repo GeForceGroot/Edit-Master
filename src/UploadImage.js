@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 
 const UploadImage = (props) => {
 
-  const [selectedFiles, setSelectedFiles] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -21,6 +21,15 @@ const UploadImage = (props) => {
   const [framerate, setFramerate] = useState('30');
   const [outputFormat, setOutputFormat] = useState('mp4');
   const [videoUrl, setVideoUrl] = useState(null);
+  const [folderPath, setFolderPath] = useState('');
+  const [message, setMessage] = useState('');
+  const [videoFiles, setVideoFiles] = useState([]);
+  const [resultMessage, setResultMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [generateVideoResult, setGenerateVideoResult] = useState('');
+  const [mergeVideosResult, setMergeVideosResult] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+
 
   const location = useLocation();
   // const history = useHistory();
@@ -55,6 +64,9 @@ const UploadImage = (props) => {
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
+  const handleFileInputChange = (event) => {
+    setSelectedFiles(event.target.files);
+  };
 
 
   const handleWidthChange = (event) => {
@@ -66,7 +78,37 @@ const UploadImage = (props) => {
   const handleOutputFormatChange = (event) => {
     setOutputFormat(event.target.value);
   }
+  // Handle file input change
 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+  
+
+  const handleVideoSubmit = async (event) => {
+    event.preventDefault();
+  
+    if (!selectedFile) {
+      alert('Please select a file to upload.');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('video', selectedFile);
+  
+    try {
+      const response = await axios.post('/uploadVideos', formData);
+  
+      if (response.status === 200) {
+        alert('File uploaded successfully.');
+      } else {
+        alert('Error uploading file.');
+      }
+    } catch (error) {
+      alert('Error uploading file.');
+      console.error(error);
+    }
+  };
 
 
 
@@ -103,29 +145,53 @@ const UploadImage = (props) => {
   };
   const handleVideoGen = (event) => {
     event.preventDefault();
-    
+
     // const formData = new FormData();
     // images.forEach((image) => {
     //   formData.append('images', image);
     // });
     // formData.append('framerate', framerate);
     // formData.append('outputFormat', outputFormat);
-    
-    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`)  
-    .then(response => {
-      const videoUrl = URL.createObjectURL(response.data);
-      const a = document.createElement('a');
-      a.href = videoUrl;
-      a.download = 'video.mp4';
-      a.click();
-      URL.revokeObjectURL(videoUrl);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+
+    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`)
+      .then(response => {
+        const videoUrl = URL.createObjectURL(response.data);
+        const a = document.createElement('a');
+        a.href = videoUrl;
+        a.download = 'video.mp4';
+        a.click();
+        URL.revokeObjectURL(videoUrl);
+        setGenerateVideoResult(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
   }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
+    try {
+      // Create a FormData object and append each file to it
+      const formData = new FormData();
+      for (let i = 0; i < videoFiles.length; i++) {
+        formData.append('videos', videoFiles[i]);
+      }
 
+      // Send a POST request to the /convert_videos endpoint
+      const response = await axios.post('http://localhost:8000/convert_videos', formData);
+
+      if (response.status === 200) {
+        const data = response.data;
+        setResultMessage(data.message);
+      } else {
+        setErrorMessage('An error occurred while merging the videos.');
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage('An error occurred while merging the videos.');
+    }
+  };
 
   return (
     <>
@@ -141,7 +207,7 @@ const UploadImage = (props) => {
                     <p className="card-text">Choose Images form your storage nad upload using upload button.</p>
                     <div className="input-group mb-3" id='chooseFile'>
                       <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileSelect} />
-                      <button className="input-group-text" id='loadUp' onClick={handleUpload}>Upload Images</button>
+                      <button className="input-group-text" id='loadUp' onClick={handleUpload}>Upload Image</button>
                     </div>
                     <p>{uploadStatus}</p>
                     <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button>
@@ -150,6 +216,29 @@ const UploadImage = (props) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="container">
+        <div className="container" id='secat11'>
+          <div className="uploadImage text-center">
+            <div className="contaier text-center my-5" id='upImgg'>
+              <div className="container text-center my-5">
+                <div className="card my-5" id='uploadImg'>
+                  <img src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY=" height='225' className="card-img-top" alt="..." />
+                  <div className="card-body">
+                    <h5 className="card-title">Upload Videos here...</h5>
+                    <p className="card-text">Choose Videos form your storage nad upload using upload button.</p>
+                    <div className="input-group mb-3" id='chooseFile'>
+                      <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileChange} />
+                      <button className="input-group-text" id='loadUp' onClick={handleVideoSubmit}>Upload Video</button>
+                    </div>
+                    <p>{uploadStatus}</p>
+                    <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
         <div className="contanier my-5 " id='textIn'>
           <div className="container" >
@@ -165,10 +254,16 @@ const UploadImage = (props) => {
         <label htmlFor="audio-input" className="form-label" id='selectAudio'>Select an audio file</label>
         <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} />
         <div className="mb-3">
-          <div className="text-center">
-            <button className="btn btn-primary" onClick={handleVideoGen} id='genVid'>Generate Video</button>
+          <div className="text-center my-3" >
+            <button className="btn btn-primary" onClick={handleVideoGen} id='genVid'>Add Frame</button>
             {videoUrl && <video src={videoUrl} controls />}
           </div>
+        </div>
+      </div>
+      <div className="container">
+        <div>
+          <button onClick={handleSubmit}>Merge videos</button>
+          {mergeVideosResult && <p>{mergeVideosResult}</p>}
         </div>
       </div>
     </>
