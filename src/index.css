@@ -229,6 +229,21 @@
     border-radius: 10px;
     background-color: #9ed7e9;
 }
+#addF{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #53aecb;
+}
+#mVid{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #53aecb;
+}
+#finBt{
+    border: 3px solid #186584;
+    border-radius: 10px;
+    background-color: #53aecb;
+}
 #images{
     border: 3px solid #186584;
     border-radius: 10px;
@@ -263,5 +278,9 @@ border: 5px solid black;
 }
 #vid{
     border: 3px solid rgb(98, 98, 186);
+    border-radius: 10px;
+}
+#frame{
+    border: 3px solid rgb(0, 140, 255);;
     border-radius: 10px;
 }

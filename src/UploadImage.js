@@ -15,7 +15,7 @@ const UploadImage = (props) => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [text, setText] = useState('');
   const [selectedAudio, setSelectedAudio] = useState('');
-  const [fps, setFps] = useState('');
+  const [fps, setFps] = useState(30);
   const [height, setHeight] = useState('');
   const [width, setWidth] = useState('');
   const [images, setImages] = useState([]);
@@ -32,6 +32,7 @@ const UploadImage = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [videos, setVideos] = useState([]);
   const [videoName, setVideoName] = useState('');
+
 
 
 
@@ -88,22 +89,22 @@ const UploadImage = (props) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  
+
 
   const handleVideoSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (!selectedFile) {
       alert('Please select a file to upload.');
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('video', selectedFile);
-  
+
     try {
       const response = await axios.post('http://localhost:8000/uploadVideos', formData);
-  
+
       if (response.status === 200) {
         alert('File uploaded successfully.');
       } else {
@@ -158,7 +159,7 @@ const UploadImage = (props) => {
     // formData.append('framerate', framerate);
     // formData.append('outputFormat', outputFormat);
 
-    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`)
+    axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`, { fps })
       .then(response => {
         const videoUrl = URL.createObjectURL(response.data);
         const a = document.createElement('a');
@@ -216,7 +217,18 @@ const UploadImage = (props) => {
       .then(() => setVideos(videos.filter(video => video.name !== videoName)))
       .catch(error => console.error(error));
   }
-  
+
+  // Handle "finish" button click
+  const handleFinishClick = () => {
+    axios.post('http://localhost:8000/finish')
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
 
   return (
     <>
@@ -235,7 +247,7 @@ const UploadImage = (props) => {
                       <button className="input-group-text" id='loadUp' onClick={handleUpload}>Upload Image</button>
                     </div>
                     <p>{uploadStatus}</p>
-                    <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button>
+                    {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
                   </div>
                 </div>
               </div>
@@ -243,27 +255,27 @@ const UploadImage = (props) => {
           </div>
         </div>
         <div className="container">
-        <div className="container" id='secat11'>
-          <div className="uploadImage text-center">
-            <div className="contaier text-center my-5" id='upImgg'>
-              <div className="container text-center my-5">
-                <div className="card my-5" id='uploadImg'>
-                  <img src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY=" height='225' className="card-img-top" alt="..." />
-                  <div className="card-body">
-                    <h5 className="card-title">Upload Videos here...</h5>
-                    <p className="card-text">Choose Videos form your storage nad upload using upload button.</p>
-                    <div className="input-group mb-3" id='chooseFile'>
-                      <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileChange} />
-                      <button className="input-group-text" id='loadUp' onClick={handleVideoSubmit}>Upload Video</button>
+          <div className="container" id='secat11'>
+            <div className="uploadImage text-center">
+              <div className="contaier text-center my-5" id='upImgg'>
+                <div className="container text-center my-5">
+                  <div className="card my-5" id='uploadImg'>
+                    <img src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY=" height='225' className="card-img-top" alt="..." />
+                    <div className="card-body">
+                      <h5 className="card-title">Upload Videos here...</h5>
+                      <p className="card-text">Choose Videos form your storage nad upload using upload button.</p>
+                      <div className="input-group mb-3" id='chooseFile'>
+                        <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileChange} />
+                        <button className="input-group-text" id='loadUp' onClick={handleVideoSubmit}>Upload Video</button>
+                      </div>
+                      <p>{uploadStatus}</p>
+                      {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
                     </div>
-                    <p>{uploadStatus}</p>
-                    <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
         <div className="contanier my-5 " id='textIn'>
           <div className="container" >
@@ -276,33 +288,47 @@ const UploadImage = (props) => {
         </div>
       </div>
       <div className="mb-3">
-        <label htmlFor="audio-input" className="form-label" id='selectAudio'>Select an audio file</label>
-        <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} />
+        {/* <label htmlFor="audio-input" className="form-label" id='selectAudio'>Select an audio file</label> */}
+        {/* <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} /> */}
         <div className="mb-3">
-          <div className="text-center my-3" >
-            <button className="btn btn-primary" onClick={handleVideoGen} id='genVid'>Add Frame</button>
+          <div className="text-center my-3"  >
+            <label>
+              <h4>
+                FPS:
+              </h4>
+              <input type="number" id='frame' value={fps} onChange={(event) => setFps(event.target.value)} />
+            </label>
+            <button className="btn btn-primary mx-4" onClick={handleVideoGen} id='addF'>Add Frame</button>
             {videoUrl && <video src={videoUrl} controls />}
           </div>
         </div>
       </div>
-      <div className="container">
-        <div>
-          <button onClick={handleSubmit}>Merge videos</button>
+      <div className="container ">
+        <div className='container'>
+          <button className='mergeVid' id='mVid' onClick={handleSubmit}>Merge videos</button>
           {mergeVideosResult && <p>{mergeVideosResult}</p>}
         </div>
       </div>
-      <div >
-      <h1>Videos List</h1>
-      {videos.map(video => (
-        <div key={video.path} >
-          <div className='container my-2 text-center' id='allVid'>
-          <button onClick={() => handleDeleteVideo(video.name)}>Delete</button>
-          <h2>{video.name}</h2>
-          <video src={video.path} controls></video>
-          </div>
+      <div className='container'>
+        <div className='row'>
+          {videos.map(video => (
+            <div key={video.path} className='col-md-4'>
+              <div className='card mb-4 shadow-sm'>
+                <button className='btn btn-danger' onClick={() => handleDeleteVideo(video.name)}>Delete</button>
+                <div className='card-body'>
+                  <h2 className='card-title'>{video.name}</h2>
+                  <div className='embed-responsive embed-responsive-16by9'>
+                    <video src={video.path} controls className='embed-responsive-item'></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+      <div className="container my-4">
+        <button className='finishBt' id='finBt' onClick={handleFinishClick}>Finish</button>
+      </div>
     </>
   )
 }

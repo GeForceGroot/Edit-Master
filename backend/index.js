@@ -77,6 +77,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // ******************   Task 3   ********************
 
 
+
+
+
+
+
+
 // GET all categorie]
 
 app.get('/allCategories', async (req, res) => {
@@ -99,6 +105,10 @@ app.get('/allCategories', async (req, res) => {
 
 
 // ******************   Task 4   ********************
+
+
+
+
 
 
 
@@ -145,6 +155,9 @@ app.post('/allCategories/:id/folders', async (req, res) => {
 
 
 
+
+
+
 // Add a new category
 
 app.post('/categories', async (req, res) => {
@@ -179,6 +192,10 @@ app.post('/categories', async (req, res) => {
 
 
 // ******************   Task 5   ********************
+
+
+
+
 
 
 
@@ -244,7 +261,15 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
 
 });
 
+
+
+
+
+
 // ******************** Task 6 **********************
+
+
+
 
 let videoCounter = 1;
 
@@ -394,14 +419,17 @@ app.post('/allCategories/:categoryId/folders/:folderName/tts', upload.single('mp
 let videoPaths = [];
 
 app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, res) => {
-  const { categoryId, folderName } = req.params;
+  const { categoryId, folderName, } = req.params;
   const imagesPath = path.join(__dirname, `public/images/${categoryId}/${folderName}`);
   // const outputVideoPath = path.join(__dirname, `public/images/${categoryId}/${folderName}/video.mp4`);
   const outputVideoPath = `uploads/video${videoCounter}.mp4`
 
   const fileListPath = path.join(imagesPath, 'filelist.txt');
   const audioPath = path.join(__dirname, `public/images/${categoryId}/${folderName}/audio.mp3`);
-  // const fps = 30;
+
+  // Use the user-specified FPS or default to 30
+  const fps = req.body.fps || 30; 
+  console.log(fps)
 
   // Check if audio file exists
   if (!fs.existsSync(audioPath)) {
@@ -421,7 +449,7 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 
   // Use FFmpeg to generate a video from the list of images
   const ffmpegProcess = spawn('ffmpeg', [
-    '-r', '1/60',
+    '-r', `1/${fps}`,
     '-f', 'concat',
     '-safe', '0',
     '-i', fileListPath,
@@ -590,7 +618,7 @@ app.get('/videos', (req, res) => {
 
 
 
-// ******************************************************************************
+// ******************************** Task 11**********************************************
 
 app.delete('/videos/:videoName', (req, res) => {
   const videoName = req.params.videoName;
@@ -614,6 +642,42 @@ app.delete('/videos/:videoName', (req, res) => {
     });
   });
 });
+
+// ******************************************************************************
+
+
+// ******************************* Task 12***************************************
+
+
+app.post('/finish', (req, res) => {
+  const folderPath = './uploads';
+
+  // Read all files in the folder
+  fs.readdir(folderPath, (err, files) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Internal server error');
+    }
+
+    // Delete all files in the folder
+    files.forEach(file => {
+      fs.unlink(path.join(folderPath, file), err => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send('Internal server error');
+        }
+      });
+    });
+
+    // Reset the video counter
+    videoCounter = 1;
+
+    // Send a success response
+    res.send('Upload folder has been emptied');
+  });
+});
+
+
 
 // ******************************************************************************
 
