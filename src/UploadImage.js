@@ -83,6 +83,7 @@ const UploadImage = (props) => {
   const handleOutputFormatChange = (event) => {
     setOutputFormat(event.target.value);
   }
+  
   // Handle file input change
 
   const handleFileChange = (event) => {
@@ -190,6 +191,7 @@ const UploadImage = (props) => {
       if (response.status === 200) {
         const data = response.data;
         setResultMessage(data.message);
+        window.location.reload();
       } else {
         setErrorMessage('An error occurred while merging the videos.');
       }
@@ -223,6 +225,7 @@ const UploadImage = (props) => {
     axios.post('http://localhost:8000/finish')
       .then(response => {
         console.log(response.data);
+        window.location.reload();
       })
       .catch(error => {
         console.error(error);

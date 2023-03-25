@@ -14,6 +14,7 @@ const SetCategory = () => {
         console.log(response.data);
         // Clear input field value
         setCategory('');
+        window.location.reload();
       })
       .catch(error => {
         console.log(error);

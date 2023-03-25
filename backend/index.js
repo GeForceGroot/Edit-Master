@@ -521,43 +521,43 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 // Define route for video conversion
 app.post('/convert_videos', async (req, res) => {
   try {
-
     // Path for inserting the video
-
     const videosPath = `./uploads`;
     const outputFilePath = `videos/${Date.now()}-output.mp4`
 
+    // Path for the audio file to be added as background music
+    const audioFilePath = `./audio/background-music.mp3`;
 
+    // Create a list of video file paths in the specified folder
     const fileListPath = path.join(videosPath, 'filelist.txt');
-
-    // Create an array of video file paths in the specified folder
-
     const fileList = fs.readdirSync(videosPath)
-
-    // filter all videos types
-
       .filter((file) => file.endsWith('.mp4')) 
       .sort((a, b) => parseInt(a) - parseInt(b))
       .map(file=> `file '${path.join(videosPath, file)}'`)
       .join('\n');
-     fs.writeFileSync(fileListPath, fileList); 
+    fs.writeFileSync(fileListPath, fileList); 
 
-    const child = spawn('ffmpeg', ['-safe', '0', '-f', 'concat', '-i', fileListPath, '-c', 'copy', outputFilePath]);
+    // Get the duration of the audio file
+    const audioDuration = await getDurationInSeconds(audioFilePath);
+
+    // Add the audio to the concatenated video using the amix filter
+    const child = spawn('ffmpeg', [
+      '-safe', '0', '-f', 'concat', '-i', fileListPath,
+      '-i', audioFilePath, '-filter_complex', 
+      `[1:a]adelay=${audioDuration}|${audioDuration}[delayed_audio];[0:a][delayed_audio]amix=inputs=2[audio]`,
+      '-map', '0:v', '-map', '[audio]', '-c:v', 'copy', '-shortest', outputFilePath]);
 
     // Listen for errors from the FFmpeg process
-
     child.stderr.on('data', (data) => {
       console.error(`stderr: ${data}`);
     });
 
     // Listen for completion of the FFmpeg process
-
     child.on('close', (code) => {
       if (code === 0) {
         console.log(`FFmpeg process exited with code ${code}`);
 
         // Respond to the client with a success message
-
         res.json({
           message: `Videos in ${videosPath} have been concatenated successfully.`,
           outputFilePath
@@ -566,7 +566,6 @@ app.post('/convert_videos', async (req, res) => {
         console.error(`FFmpeg process exited with code ${code}`);
 
         // Respond to the client with an error message
-        
         res.status(500).json({
           message: 'An error occurred while concatenating the videos.',
         });
@@ -577,12 +576,27 @@ app.post('/convert_videos', async (req, res) => {
     console.error(error);
 
     // Respond to the client with an error message
-
     res.status(500).json({
       message: 'An error occurred while concatenating the videos.',
     });
   }
 });
+
+// Helper function to get the duration of an audio file
+function getDurationInSeconds(filePath) {
+  return new Promise((resolve, reject) => {
+    ffmpeg(filePath)
+      .ffprobe((err, metadata) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(parseFloat(metadata.format.duration));
+        }
+      });
+  });
+}
+
+
 
 
 
