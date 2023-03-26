@@ -516,36 +516,38 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 
 
 
-
-
-// Define route for video conversion
 app.post('/convert_videos', async (req, res) => {
   try {
     // Path for inserting the video
     const videosPath = `./uploads`;
     const outputFilePath = `videos/${Date.now()}-output.mp4`
-
-    // Path for the audio file to be added as background music
+    const fileListPath = path.join(videosPath, 'filelist.txt');
     const audioFilePath = `./audio/background-music.mp3`;
 
-    // Create a list of video file paths in the specified folder
-    const fileListPath = path.join(videosPath, 'filelist.txt');
+    // Create an array of video file paths in the specified folder
     const fileList = fs.readdirSync(videosPath)
+
+    // filter all videos types and sort them by serial number
       .filter((file) => file.endsWith('.mp4')) 
-      .sort((a, b) => parseInt(a) - parseInt(b))
-      .map(file=> `file '${path.join(videosPath, file)}'`)
-      .join('\n');
-    fs.writeFileSync(fileListPath, fileList); 
+      .sort((a, b) => parseInt(a.match(/\d+/)) - parseInt(b.match(/\d+/)))
 
-    // Get the duration of the audio file
-    const audioDuration = await getDurationInSeconds(audioFilePath);
+    // create an array of video file paths with their serial number
+    const filesWithPath = fileList.map(file => ({
+      path: path.join(videosPath, file),
+      serialNumber: parseInt(file.match(/\d+/))
+    }))
 
-    // Add the audio to the concatenated video using the amix filter
-    const child = spawn('ffmpeg', [
-      '-safe', '0', '-f', 'concat', '-i', fileListPath,
-      '-i', audioFilePath, '-filter_complex', 
-      `[1:a]adelay=${audioDuration}|${audioDuration}[delayed_audio];[0:a][delayed_audio]amix=inputs=2[audio]`,
-      '-map', '0:v', '-map', '[audio]', '-c:v', 'copy', '-shortest', outputFilePath]);
+    // create a string with the paths of the videos in order of their serial number
+    const fileListString = filesWithPath.map(file => `file '${file.path}'`).join('\n')
+
+    // create a filter complex to merge audio with video
+    const filterComplex = `-filter_complex "[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]" -map "[aout]"`;
+
+    // write the file list to the filelist.txt
+    fs.writeFileSync(fileListPath, fileListString); 
+
+    const child = spawn('ffmpeg', ['-safe', '0', '-f', 'concat', '-i', fileListPath, '-i', './audio/background-music.mp3', '-filter_complex', '[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]', '-map', '0:v', '-map', '[aout]', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-y', outputFilePath]);
+
 
     // Listen for errors from the FFmpeg process
     child.stderr.on('data', (data) => {
@@ -570,11 +572,12 @@ app.post('/convert_videos', async (req, res) => {
           message: 'An error occurred while concatenating the videos.',
         });
       }
+      
+      // remove the filelist.txt
       fs.unlinkSync(fileListPath);
     });
   } catch (error) {
     console.error(error);
-
     // Respond to the client with an error message
     res.status(500).json({
       message: 'An error occurred while concatenating the videos.',
@@ -582,19 +585,8 @@ app.post('/convert_videos', async (req, res) => {
   }
 });
 
-// Helper function to get the duration of an audio file
-function getDurationInSeconds(filePath) {
-  return new Promise((resolve, reject) => {
-    ffmpeg(filePath)
-      .ffprobe((err, metadata) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(parseFloat(metadata.format.duration));
-        }
-      });
-  });
-}
+
+
 
 
 
@@ -674,6 +666,7 @@ app.post('/finish', (req, res) => {
     }
 
     // Delete all files in the folder
+    
     files.forEach(file => {
       fs.unlink(path.join(folderPath, file), err => {
         if (err) {
@@ -684,9 +677,11 @@ app.post('/finish', (req, res) => {
     });
 
     // Reset the video counter
+
     videoCounter = 1;
 
     // Send a success response
+    
     res.send('Upload folder has been emptied');
   });
 });

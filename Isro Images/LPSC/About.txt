@@ -1,0 +1,5 @@
+Liquid Propulsion Systems Centre (LPSC) is the lead Centre for development and realization of earth-to-orbit advanced propulsion stages for Launch Vehicles and also the in-space propulsion systems for Spacecrafts. The LPSC activities and facilities are spread across its two campuses viz., LPSC Headquarters and Design Offices at Valiamala/Thiruvananthapuram, and Spacecraft Propulsion Systems Unit at LPSC, Bangalore/Karnataka.
+
+LPSC is vested with the responsibility of design, development and system engineering of high performance Space Propulsion Systems employing Earth Storable and Cryogenic Propellants for ISRO's Launch Vehicles and Satellites. Development of fluid control valves, transducers, propellant management devices and other key components of Liquid Propulsion Systems are also under the purview of LPSC.
+
+LPSC Valiamala is the Centre Headquarters, responsible for R & D, System Design/Engineering and Project Management functions. The Fluid Control Components Entity and the Materials & Mechanical Engineering Entity are located here apart from the Earth Storable & Cryogenic Propulsion Entities, handling the core tasks of the Centre.
