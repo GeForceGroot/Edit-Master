@@ -10,7 +10,7 @@
 }
 
 #col1 {
-    border: 3px solid rgb(41, 95, 121);;
+    border: 3px solid aqua;
     border-radius: 15px;
 }
 
@@ -22,6 +22,13 @@
 #col3 {
     border: 3px solid rgb(41, 95, 121);
     border-radius: 15px;
+}
+.card-title, .card-text{
+    text-align: center;
+}
+
+#EnterText{
+    text-align: center;
 }
 
 @media(max-width: 991.98px) {
@@ -182,24 +189,6 @@
     color: #087908;
     cursor: grab;
 }
-#secat{
-    display: flex;
-    justify-content: center;
-   padding: 80px;
-   margin-bottom: 30px;
-}
-#secat{
-    display: flex;
-    justify-content: center;
-    padding: 80px;
-    margin-bottom: 30px;
-}
-#secat1{
-    display: flex;
-    justify-content: center;
-    padding: 80px;
-    margin-bottom: 30px;
-}
 .uploadImage{
     /* border: 4px solid black; */
     display: flex;
@@ -253,13 +242,25 @@
 justify-content: center;
 border: 5px solid black;
 } */
-#text-input{
-    border: 3px solid rgb(0, 140, 255);
+
+.steph{
+    font-family: 'Antic', sans-serif;
+    color: rgba(0, 0, 0, 0.404);
+    font-weight: bold;
+    padding-top:2.5rem;
+    font-size: 1.3rem;
+    text-align: center;
 }
-#EnterText{
-    font-size: 1.5rem;
-    color: #186584;
- font-weight: bold;
+#text-input{
+    width: 100%;
+    height: 20rem;
+    resize: none;
+    background-color: white;
+    padding: 4rem 2rem 2rem 2rem;
+    border-radius: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    border:2px solid rgb(109, 86, 214);
 }
 #converText{
     border: 3px solid #186584;
@@ -283,4 +284,68 @@ border: 5px solid black;
 #frame{
     border: 3px solid rgb(0, 140, 255);;
     border-radius: 10px;
+}
+.button{
+    background-color: rgb(255, 255, 255);
+    color:rgb(109, 86, 214);
+    border: 2px solid rgb(109, 86, 214);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    border-radius: 2.5rem;
+    transition: .3s;
+    outline-style: none;
+    cursor: pointer;
+}
+.button:enabled{
+    background-color: rgb(255, 255, 255);
+    color:rgb(109, 86, 214);
+    border: 2px solid rgb(109, 86, 214);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+    border-radius: 2.5rem;
+    transition: .3s;
+    outline-style: none;
+    cursor: pointer;
+}
+.button:enabled:hover{
+    background-color:rgb(109, 86, 214);
+    color:white;    
+}
+.button:disabled{
+    background-color:rgba(255, 255, 255, 0);
+    color:rgba(73, 72, 75, 0.4);
+    border: 2px solid rgba(73, 72, 75, 0.4);
+    cursor: auto;
+}
+#tarea{
+    width: 80%;
+    height: 30rem;
+    resize: none;
+    background-color: white;
+    padding: 4rem 2rem 2rem 2rem;
+    border-radius: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    border:2px solid rgb(109, 86, 214);
+}
+#converText{
+    margin-left: 0;
+}
+#mergeVid {
+    display: flex;
+    justify-content: center;
+}
+#fin{
+    display: flex;
+    justify-content: center;
 }

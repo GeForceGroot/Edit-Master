@@ -428,8 +428,8 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
   const audioPath = path.join(__dirname, `public/images/${categoryId}/${folderName}/audio.mp3`);
 
   // Use the user-specified FPS or default to 30
-  const fps = req.body.fps || 30; 
-  console.log(fps)
+  // const fps = req.body.fps || 30; 
+  // console.log(fps)
 
   // Check if audio file exists
   if (!fs.existsSync(audioPath)) {
@@ -449,7 +449,7 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 
   // Use FFmpeg to generate a video from the list of images
   const ffmpegProcess = spawn('ffmpeg', [
-    '-r', `1/${fps}`,
+    '-r', `1/5`,
     '-f', 'concat',
     '-safe', '0',
     '-i', fileListPath,

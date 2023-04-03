@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import CategorySelect from './CategorySelect';
+import { toast } from 'react-toastify';
 const SetCategory = () => {
-  
+
   //  route 1 : To add new category in database
 
   const [category, setCategory] = useState('');
@@ -15,6 +16,10 @@ const SetCategory = () => {
         // Clear input field value
         setCategory('');
         window.location.reload();
+        toast.success('New Category Added Successfully!', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
       })
       .catch(error => {
         console.log(error);
@@ -28,7 +33,7 @@ const SetCategory = () => {
             <div className="row text-center my-4" id="rw">
               <div className="position-relative">
                 <div className="position-absolute top-0 end-0 mx-4">
-                  <i className="fa-solid fa-circle-plus fa-2x" style={{ color: "#226da2" }} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  <i className="fa-solid fa-circle-plus fa-2x" id='AddCatBtn' style={{ color: "#226da2" }} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
                   </i>
                   {/* <!-- Modal --> */}
                   <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -49,7 +54,7 @@ const SetCategory = () => {
                       </div>
                     </div>
                   </div>
-                  <p>Add New Category</p>
+                  <p id='paraOfAdd'>Add New Category</p>
                 </div>
               </div>
               <div className="position-absolute top-0 start-0">

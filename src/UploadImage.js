@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const UploadImage = (props) => {
 
@@ -55,7 +56,10 @@ const UploadImage = (props) => {
         }
       });
       setUploadStatus(response.data);
-
+      toast.success('Image Uploaded Successfully!', {
+        autoClose: 2000,
+        position: toast.POSITION.TOP_RIGHT
+      });
     } catch (error) {
       console.log('Error uploading images', error);
       setUploadStatus('Error uploading images');
@@ -83,7 +87,7 @@ const UploadImage = (props) => {
   const handleOutputFormatChange = (event) => {
     setOutputFormat(event.target.value);
   }
-  
+
   // Handle file input change
 
   const handleFileChange = (event) => {
@@ -108,6 +112,10 @@ const UploadImage = (props) => {
 
       if (response.status === 200) {
         alert('File uploaded successfully.');
+        toast.success('Video Uploaded Successfully!', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
       } else {
         alert('Error uploading file.');
       }
@@ -144,6 +152,10 @@ const UploadImage = (props) => {
         // Clear text input
 
         setText('');
+        toast.success('Text Added!', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
       })
       .catch(error => console.log('Error converting text', error));
   }
@@ -169,6 +181,10 @@ const UploadImage = (props) => {
         a.click();
         URL.revokeObjectURL(videoUrl);
         setGenerateVideoResult(response.data);
+        toast.success('Frames Added!', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
       })
       .catch(error => {
         console.log(error);
@@ -192,6 +208,12 @@ const UploadImage = (props) => {
         const data = response.data;
         setResultMessage(data.message);
         window.location.reload();
+
+        toast.success('Video merged Successfully :)!', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
+
       } else {
         setErrorMessage('An error occurred while merging the videos.');
       }
@@ -226,6 +248,10 @@ const UploadImage = (props) => {
       .then(response => {
         console.log(response.data);
         window.location.reload();
+        toast.success('Your Presentation is ready for Use :)', {
+          autoClose: 2000,
+          position: toast.POSITION.TOP_RIGHT
+        });
       })
       .catch(error => {
         console.error(error);
@@ -235,58 +261,114 @@ const UploadImage = (props) => {
 
   return (
     <>
-      <div className="container" id='mainPage'>
-        <div className="container" id='secat1'>
-          <div className="uploadImage text-center">
-            <div className="contaier text-center my-5" id='upImg'>
-              <div className="container text-center my-5">
-                <div className="card my-5" id='uploadImg'>
-                  <img src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY=" height='225' className="card-img-top" alt="..." />
-                  <div className="card-body">
-                    <h5 className="card-title">Upload Images here...</h5>
-                    <p className="card-text">Choose Images form your storage nad upload using upload button.</p>
-                    <div className="input-group mb-3" id='chooseFile'>
-                      <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileSelect} />
-                      <button className="input-group-text" id='loadUp' onClick={handleUpload}>Upload Image</button>
-                    </div>
-                    <p>{uploadStatus}</p>
-                    {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
+      <div className="container" id="mainPage">
+        <p class="steph">Step 1:</p>
+        <i class="far fa-images"></i>
+        <h3>Upload Your Files</h3>
+        <div class="row mt-5">
+          <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+              <div class="card-body">
+                <img
+                  src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY="
+                  height="225"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <div className="card-body">
+                  <h5 className="card-title">Upload Images here...</h5>
+                  <p className="card-text">
+                    Choose Images form your storage nad upload using upload
+                    button.
+                  </p>
+                  <div className="input-group mb-3" id="chooseFile">
+                    <input
+                      className="form-control mx-3"
+                      id="images"
+                      type="file"
+                      multiple
+                      onChange={handleFileSelect}
+                    />
+                    <button
+                      className="button"
+                      id="loadUp"
+                      onClick={handleUpload}
+                    >
+                      <span>Upload </span>
+                    </button>
                   </div>
+                  <p>{uploadStatus}</p>
+                  {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <img
+                  src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY="
+                  height="225"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <div className="card-body">
+                  <h5 className="card-title">Upload Videos here...</h5>
+                  <p className="card-text">
+                    Choose Videos form your storage nad upload using upload
+                    button.
+                  </p>
+                  <div className="input-group mb-3" id="chooseFile">
+                    <input
+                      className="form-control mx-3"
+                      id="images"
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                    />
+                    <button
+                      className="button"
+                      id="loadUp"
+                      onClick={handleVideoSubmit}
+                    >
+                      <span>Upload </span>
+                    </button>
+                  </div>
+                  <p>{uploadStatus}</p>
+                  {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="container">
-          <div className="container" id='secat11'>
-            <div className="uploadImage text-center">
-              <div className="contaier text-center my-5" id='upImgg'>
-                <div className="container text-center my-5">
-                  <div className="card my-5" id='uploadImg'>
-                    <img src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY=" height='225' className="card-img-top" alt="..." />
-                    <div className="card-body">
-                      <h5 className="card-title">Upload Videos here...</h5>
-                      <p className="card-text">Choose Videos form your storage nad upload using upload button.</p>
-                      <div className="input-group mb-3" id='chooseFile'>
-                        <input className="form-control mx-3" id="images" type="file" multiple onChange={handleFileChange} />
-                        <button className="input-group-text" id='loadUp' onClick={handleVideoSubmit}>Upload Video</button>
-                      </div>
-                      <p>{uploadStatus}</p>
-                      {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
+        {/* <div id="preloadertts" >    
+                    <div class="ttsloading">
+                        <img src="C:\Users\Lenovo\OneDrive\Desktop\nrsc-app\nrsc-app\images\loading.gif" alt="loading......"/>
                     </div>
-                  </div>
-                </div>
-              </div>
+                    <p>Please wait..Don't go to next step.</p>
+                </div> */}
+        <div className="contanier my-5 " id="textIn">
+          <div className="container">
+            <div className="mb-3 my-4">
+              <p class="steph">Step 2:</p>
+              <i class="fas fa-music"></i>
+              <h3>Compose Your Background Track</h3>
+              <textarea
+                className="form-control"
+                id="text-input"
+                rows="10"
+                value={text}
+                onChange={handleTextChange}
+                placeholder="Remember! Be nice."
+              ></textarea>
             </div>
-          </div>
-        </div>
-        <div className="contanier my-5 " id='textIn'>
-          <div className="container" >
-            <div className="mb-3 my-4" >
-              <label htmlFor="text-input" className="form-label" id='EnterText' >Enter text here...</label>
-              <textarea className="form-control" id="text-input" rows="10" value={text} onChange={handleTextChange}></textarea>
-            </div>
-            <button onClick={handleConvertClick} className="btn btn-primary " id='converText'>Upload Text...</button>
+            <button
+              onClick={handleConvertClick}
+              className="container button"
+              id="converText"
+            >
+              <span>Upload </span>
+            </button>
           </div>
         </div>
       </div>
@@ -294,47 +376,65 @@ const UploadImage = (props) => {
         {/* <label htmlFor="audio-input" className="form-label" id='selectAudio'>Select an audio file</label> */}
         {/* <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} /> */}
         <div className="mb-3">
-          <div className="text-center my-3"  >
-            <label>
-              <h4>
-                FPS:
-              </h4>
-              <input type="number" id='frame' value={fps} onChange={(event) => setFps(event.target.value)} />
-            </label>
-            <button className="btn btn-primary mx-4" onClick={handleVideoGen} id='addF'>Add Frame</button>
+          <div className="text-center my-3">
+            {/* <label>
+              <h4>FPS:</h4>
+              <input
+                type="number"
+                id="frame"
+                value={fps}
+                onChange={(event) => setFps(event.target.value)}
+              />
+            </label> */}
+            <button className="button my-2" onClick={handleVideoGen} id="addF">
+              <span>Add Frame </span>
+            </button>
             {videoUrl && <video src={videoUrl} controls />}
           </div>
         </div>
       </div>
       <div className="container ">
-        <div className='container'>
-          <button className='mergeVid' id='mVid' onClick={handleSubmit}>Merge videos</button>
+        <div className="container my-2" id='mergeVid'>
+          <button className="button" id="mVid" onClick={handleSubmit}>
+            <span>Merge Videos </span>
+          </button>
           {mergeVideosResult && <p>{mergeVideosResult}</p>}
         </div>
-      </div>
-      <div className='container'>
-        <div className='row'>
-          {videos.map(video => (
-            <div key={video.path} className='col-md-4'>
-              <div className='card mb-4 shadow-sm'>
-                <button className='btn btn-danger' onClick={() => handleDeleteVideo(video.name)}>Delete</button>
-                <div className='card-body'>
-                  <h2 className='card-title'>{video.name}</h2>
-                  <div className='embed-responsive embed-responsive-16by9'>
-                    <video src={video.path} controls className='embed-responsive-item'></video>
+        <div className="container">
+          <div className="row">
+            {videos.map((video) => (
+              <div key={video.path} className="col-md-4">
+                <div className="card mb-4 shadow-sm">
+                  <button
+                    className="button"
+                    onClick={() => handleDeleteVideo(video.name)}
+                  >
+                    <span>Delete </span>
+                  </button>
+                  <div className="card-body">
+                    <h2 className="card-title">{video.name}</h2>
+                    <div className="embed-responsive embed-responsive-16by9">
+                      <video
+                        src={video.path}
+                        controls
+                        className="embed-responsive-item"
+                      ></video>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+        <div className="container my-2" id="fin">
+          <button className="button" id="finBt" onClick={handleFinishClick}>
+            <span>Finish </span>
+          </button>
         </div>
       </div>
-      <div className="container my-4">
-        <button className='finishBt' id='finBt' onClick={handleFinishClick}>Finish</button>
-      </div>
     </>
-  )
-}
+  );
+};
 
 export default UploadImage;
 

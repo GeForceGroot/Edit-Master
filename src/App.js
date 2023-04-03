@@ -7,13 +7,15 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SetCategory from './SetCategory';
 import UploadImage from './UploadImage';
 import TextToSpeech from './TextToSpeech';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
       <Router>
         <Navbar />
-        
+        <ToastContainer />
         <Switch>
           <Route exact path='/'>
             <Home />
