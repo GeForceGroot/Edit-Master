@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Edit-Master/static/css/main.3f100642.css",
+    "main.js": "/Edit-Master/static/js/main.0ecdcb54.js",
+    "static/js/787.985193bd.chunk.js": "/Edit-Master/static/js/787.985193bd.chunk.js",
+    "index.html": "/Edit-Master/index.html",
+    "main.3f100642.css.map": "/Edit-Master/static/css/main.3f100642.css.map",
+    "main.0ecdcb54.js.map": "/Edit-Master/static/js/main.0ecdcb54.js.map",
+    "787.985193bd.chunk.js.map": "/Edit-Master/static/js/787.985193bd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3f100642.css",
+    "static/js/main.0ecdcb54.js"
+  ]
+}
