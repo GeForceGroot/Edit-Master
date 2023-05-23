@@ -10,9 +10,9 @@ const Slide = () => {
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
-    <div className="carousel-inner">
+    <div className="carousel-inner" id='silde'>
       <div className="carousel-item active" data-bs-interval="10000">
-        <img src={require('../Img/Main Edit Master.jpg')} width='800px' height='800px' className="d-block w-100" alt="..."/>
+        <img src={require('../Img/Main Edit Master.png')} width='800px' height='800px' className="d-block w-100" alt="..."/>
         <div className="carousel-caption d-none d-md-block">
           <h5>Welcome</h5>
           {/* <p>Some representative placeholder content for the first slide.</p> */}

@@ -1,0 +1,9 @@
+1. open terminal and go to the project directory nad run command "npm i react"
+2. Change Mongo url to   'mongodb://127.0.0.1/test' in backend/index.js  "at line number 54".
+3. Run Command "npm run both".
+
+
+
+Tools Required 
+1. VsCode
+2. MongoDb Compass

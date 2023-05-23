@@ -111,6 +111,34 @@ app.get('/allCategories', async (req, res) => {
 
 
 
+app.get('/allCategories/:id/folders', async (req, res) => {
+  const categoryId = req.params.id;
+
+  // Check if category already exists
+  const category = await Category.findById(categoryId);
+  if (!category) {
+    return res.status(404).send('Category not found');
+  }
+
+  const categoryFolderPath = path.join(__dirname, `public/images/${category.name}`);
+
+  try {
+    // Read all folders in the category folder
+    const folders = fs.readdirSync(categoryFolderPath);
+    const folderList = folders.map(folder => ({
+      name: folder,
+      path: path.join(categoryFolderPath, folder)
+    }));
+
+    res.send(folderList);
+  } catch (error) {
+    console.log('Error fetching folders', error);
+    res.status(500).send('Error fetching folders');
+  }
+});
+
+
+
 
 
 // Create new folder inside selected category
@@ -185,6 +213,9 @@ app.post('/categories', async (req, res) => {
     res.status(500).send('Error adding category');
   }
 });
+
+
+
 
 
 
@@ -267,6 +298,11 @@ app.post('/allCategories/:categoryId/folders/:folderName/upload', upload.array('
 
 
 // ******************** Task 6 **********************
+
+
+
+
+
 
 
 
@@ -411,7 +447,11 @@ app.post('/allCategories/:categoryId/folders/:folderName/tts', upload.single('mp
 
 
 
+
+
 // **********************   Main    ********************
+
+
 
 
 

@@ -262,12 +262,12 @@ const UploadImage = (props) => {
   return (
     <>
       <div className="container" id="mainPage">
-        <p class="steph">Step 1:</p>
+        <p class="steph" style={{ textDecoration: 'underline' }}>Step 1:</p>
         <i class="far fa-images"></i>
-        <h3>Upload Your Files</h3>
+        <h3 style={{ textDecoration: 'underline' }}>Upload Your Files</h3>
         <div class="row mt-5">
-          <div class="col-sm-6 mb-3 mb-sm-0">
-            <div class="card">
+          <div class="col-sm-6 mb-3 mb-sm-0" >
+            <div class="card" id='upCard1'>
               <div class="card-body">
                 <img
                   src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY="
@@ -276,7 +276,7 @@ const UploadImage = (props) => {
                   alt="..."
                 />
                 <div className="card-body">
-                  <h5 className="card-title">Upload Images here...</h5>
+                  <h5 className="card-title" style={{ textDecoration: 'underline' }}>Upload Images here...</h5>
                   <p className="card-text">
                     Choose Images form your storage nad upload using upload
                     button.
@@ -304,7 +304,7 @@ const UploadImage = (props) => {
             </div>
           </div>
           <div class="col-sm-6">
-            <div class="card">
+            <div class="card" id='upCard2'>
               <div class="card-body">
                 <img
                   src="https://media.istockphoto.com/id/468616451/photo/abstract-background-defocused-green-and-blue.jpg?s=612x612&w=0&k=20&c=DLYcr3yaWPX0ZXvQG_Yy3PxvG1D1ubV-57FO2Al_-WY="
@@ -313,7 +313,7 @@ const UploadImage = (props) => {
                   alt="..."
                 />
                 <div className="card-body">
-                  <h5 className="card-title">Upload Videos here...</h5>
+                  <h5 className="card-title" style={{ textDecoration: 'underline' }}>Upload Videos here...</h5>
                   <p className="card-text">
                     Choose Videos form your storage nad upload using upload
                     button.
@@ -341,18 +341,12 @@ const UploadImage = (props) => {
             </div>
           </div>
         </div>
-        {/* <div id="preloadertts" >    
-                    <div class="ttsloading">
-                        <img src="C:\Users\Lenovo\OneDrive\Desktop\nrsc-app\nrsc-app\images\loading.gif" alt="loading......"/>
-                    </div>
-                    <p>Please wait..Don't go to next step.</p>
-                </div> */}
         <div className="contanier my-5 " id="textIn">
           <div className="container">
             <div className="mb-3 my-4">
-              <p class="steph">Step 2:</p>
+              <p class="steph" style={{ textDecoration: 'underline' }}>Step 2:</p>
               <i class="fas fa-music"></i>
-              <h3>Compose Your Background Track</h3>
+              <h3 style={{ textDecoration: 'underline' }}>Compose Your Background Track</h3>
               <textarea
                 className="form-control"
                 id="text-input"
@@ -367,7 +361,7 @@ const UploadImage = (props) => {
               className="container button"
               id="converText"
             >
-              <span>Upload </span>
+              <span>Upload Your Text</span>
             </button>
           </div>
         </div>
@@ -386,6 +380,7 @@ const UploadImage = (props) => {
                 onChange={(event) => setFps(event.target.value)}
               />
             </label> */}
+            <p class="steph" style={{ textDecoration: 'underline' }}>Step 3:</p>
             <button className="button my-2" onClick={handleVideoGen} id="addF">
               <span>Add Frame </span>
             </button>
@@ -394,6 +389,7 @@ const UploadImage = (props) => {
         </div>
       </div>
       <div className="container ">
+      <p class="steph" style={{ textDecoration: 'underline' }}>Step 4:</p>
         <div className="container my-2" id='mergeVid'>
           <button className="button" id="mVid" onClick={handleSubmit}>
             <span>Merge Videos </span>
@@ -409,7 +405,7 @@ const UploadImage = (props) => {
                     className="button"
                     onClick={() => handleDeleteVideo(video.name)}
                   >
-                    <span>Delete </span>
+                    <span>Delete</span>
                   </button>
                   <div className="card-body">
                     <h2 className="card-title">{video.name}</h2>
@@ -426,6 +422,7 @@ const UploadImage = (props) => {
             ))}
           </div>
         </div>
+        <p class="steph" style={{ textDecoration: 'underline' }}>Step 5:</p>
         <div className="container my-2" id="fin">
           <button className="button" id="finBt" onClick={handleFinishClick}>
             <span>Finish </span>
@@ -435,6 +432,7 @@ const UploadImage = (props) => {
     </>
   );
 };
+
 
 export default UploadImage;
 

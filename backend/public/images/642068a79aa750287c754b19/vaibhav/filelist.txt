@@ -1,8 +1,0 @@
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851655335-983363118.jpeg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851655337-740709431.jpeg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851655340-954356396.png'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851655344-943901744.jpeg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851697388-67479859.jpg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851697419-274372059.jpg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851697429-581354352.jpg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\vaibhav\1679851697462-646554287.jpg'

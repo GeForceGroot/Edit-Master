@@ -1,4 +1,0 @@
-file 'C:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\lplp/1678898836469-449606753.jpg'
-file 'C:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\lplp/1678898836470-WhatsApp Image 2023-03-15 at 19.55.04.jpg'
-file 'C:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\lplp/1678898836473-925779785.jpg'
-file 'C:\ISRO\nrsc-app\backend\public\images\6401dbe1ef4ede2e39ee62de\lplp/1678898836474-WhatsApp Image 2023-03-15 at 19.59.42.jpg'

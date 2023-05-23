@@ -1,3 +1,0 @@
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\hwlllll\1679863772204-419246949.jpeg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\hwlllll\1679863772204-682728101.jpeg'
-file 'F:\ISRO\nrsc-app\backend\public\images\642068a79aa750287c754b19\hwlllll\1679863772205-769608140.jpeg'

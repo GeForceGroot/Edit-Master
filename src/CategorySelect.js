@@ -1,5 +1,7 @@
   import React, { useState, useEffect } from 'react';
   import { useHistory } from "react-router-dom";
+  import { toast } from 'react-toastify';
+
   import axios from 'axios';
 
   function CategorySelect() {
@@ -52,23 +54,59 @@
 
     const history = useHistory();
 
-    const handleCreateFolder = () => {
-      if (selectedCategory && folderName) {
-        axios.post(`http://localhost:8000/allCategories/${selectedCategory}/folders`, {
-          name: folderName
-        })
+    // const handleCreateFolder = () => {
+    //   if (selectedCategory && folderName) {
+    //     axios.post(`http://localhost:8000/allCategories/${selectedCategory}/folders`, {
+    //       name: folderName
+    //     })
+    //       .then((response) => {
+    //         console.log(response.data);
+    //         setFolderName(folderName);
+    //         let path = `/uploadImage`;
+    //         history.push(path, { categoryId: selectedCategory, folderName: folderName });
+    //       })
+    //       .catch((error) => {
+    //         console.log('Error creating folder', error);
+    //       });
+    //   }
+                   
+    // };
+    
+
+    
+const handleCreateFolder = () => {
+  if (selectedCategory && folderName) {
+
+    // Create the folder
+    axios.post(`http://localhost:8000/allCategories/${selectedCategory}/folders`, {
+      name: folderName
+    })
+      .then((response) => {
+        console.log(response.data);
+        setFolderName(folderName);
+        let path = `/uploadImage`;
+        history.push(path, { categoryId: selectedCategory, folderName: folderName });
+      })
+      .catch((error) => {
+        console.log('Error creating folder', error);
+      })
+      .finally(() => {
+        // Check if folder name already exists
+        axios.get(`http://localhost:8000/allCategories/${selectedCategory}/folders`)
           .then((response) => {
-            console.log(response.data);
-            setFolderName(folderName);
-            let path = `/uploadImage`;
-            history.push(path, { categoryId: selectedCategory, folderName: folderName });
+            const folders = response.data;
+            const existingFolder = folders.find(folder => folder.name === folderName);
+            if (existingFolder) {
+              toast.error('Folder name already exists!');
+            }
           })
           .catch((error) => {
-            console.log('Error creating folder', error);
+            console.log('Error fetching folders', error);
           });
-      }
-                   
-    };
+      });
+  }
+};
+
     
 
 

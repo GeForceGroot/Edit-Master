@@ -13,16 +13,20 @@ const Footer = () => {
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#3b5998" }}
-              href="#!"
+              href="https://www.facebook.com/ISRO/"
               role="button"
+              target='_'
+              id='tiFoot'
             ><i className="fab fa-facebook-f"></i>
             </a>
             {/* <!-- Twitter --> */}
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#55acee" }}
-              href="#!"
+              href="https://twitter.com/isro?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
               role="button"
+              target='_'
+              id='fbFoot'
             ><i className="fab fa-twitter"></i>
             </a>
 
@@ -30,8 +34,10 @@ const Footer = () => {
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#dd4b39" }}
-              href="#!"
+              href="https://www.isro.gov.in/"
               role="button"
+              target='_'
+              id='gFoot'
             ><i className="fab fa-google"></i>
             </a>
 
@@ -39,8 +45,10 @@ const Footer = () => {
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#ac2bac" }}
-              href="#!"
+              href="https://www.instagram.com/isro.in/?hl=en"
               role="button"
+              target='_'
+              id='iFoot'
             ><i className="fab fa-instagram"></i>
             </a>
 
@@ -48,16 +56,20 @@ const Footer = () => {
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#0082ca" }}
-              href="#!"
+              href="https://www.linkedin.com/in/shreyansh-tiwari-0160bb209/"
               role="button"
+              target='_'
+              id='lFoot'
             ><i className="fab fa-linkedin-in"></i>
             </a>
             {/* <!-- Github --> */}
             <a
               className="btn text-white btn-floating m-1"
               style={{ backgroundColor: "#333333" }}
-              href="#!"
+              href="https://github.com/GeForceGroot"
               role="button"
+              target='_'
+              id='gitFoot'
             ><i className="fab fa-github"></i>
             </a>
           </section>
