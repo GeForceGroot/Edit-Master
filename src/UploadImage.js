@@ -4,27 +4,28 @@ import axios from 'axios';
 // import CategorySelect from './CategorySelect';
 // import { CategoryID, folderName } from './CategorySelect';
 import { useLocation } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UploadImage = (props) => {
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadStatus, setUploadStatus] = useState('');
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  // const [selectedCategory, setSelectedCategory] = useState('');
   const [text, setText] = useState('');
   const [selectedAudio, setSelectedAudio] = useState('');
   const [fps, setFps] = useState(30);
-  const [height, setHeight] = useState('');
-  const [width, setWidth] = useState('');
-  const [images, setImages] = useState([]);
-  const [framerate, setFramerate] = useState('30');
-  const [outputFormat, setOutputFormat] = useState('mp4');
+  // const [height, setHeight] = useState('');
+  // const [width, setWidth] = useState('');
+  // const [images, setImages] = useState([]);
+  // const [framerate, setFramerate] = useState('30');
+  // const [outputFormat, setOutputFormat] = useState('mp4');
   const [videoUrl, setVideoUrl] = useState(null);
-  const [folderPath, setFolderPath] = useState('');
-  const [message, setMessage] = useState('');
+  // const [folderPath, setFolderPath] = useState('');
+  // const [message, setMessage] = useState('');
   const [videoFiles, setVideoFiles] = useState([]);
   const [resultMessage, setResultMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,7 +33,7 @@ const UploadImage = (props) => {
   const [mergeVideosResult, setMergeVideosResult] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [videos, setVideos] = useState([]);
-  const [videoName, setVideoName] = useState('');
+  // const [videoName, setVideoName] = useState('');
 
 
 
@@ -73,20 +74,20 @@ const UploadImage = (props) => {
   const handleTextChange = (event) => {
     setText(event.target.value);
   };
-  const handleFileInputChange = (event) => {
-    setSelectedFiles(event.target.files);
-  };
+  // const handleFileInputChange = (event) => {
+  //   setSelectedFiles(event.target.files);
+  // };
 
 
-  const handleWidthChange = (event) => {
-    setWidth(event.target.value);
-  };
-  const handleFramerateChange = (event) => {
-    setFramerate(event.target.value);
-  }
-  const handleOutputFormatChange = (event) => {
-    setOutputFormat(event.target.value);
-  }
+  // const handleWidthChange = (event) => {
+  //   setWidth(event.target.value);
+  // };
+  // const handleFramerateChange = (event) => {
+  //   setFramerate(event.target.value);
+  // }
+  // const handleOutputFormatChange = (event) => {
+  //   setOutputFormat(event.target.value);
+  // }
 
   // Handle file input change
 
@@ -165,13 +166,6 @@ const UploadImage = (props) => {
   const handleVideoGen = (event) => {
     event.preventDefault();
 
-    // const formData = new FormData();
-    // images.forEach((image) => {
-    //   formData.append('images', image);
-    // });
-    // formData.append('framerate', framerate);
-    // formData.append('outputFormat', outputFormat);
-
     axios.post(`http://localhost:8000/allCategories/${categoryId}/folders/${folderName}/generateVideo`, { fps })
       .then(response => {
         const videoUrl = URL.createObjectURL(response.data);
@@ -181,7 +175,7 @@ const UploadImage = (props) => {
         a.click();
         URL.revokeObjectURL(videoUrl);
         setGenerateVideoResult(response.data);
-        toast.success('Frames Added!', {
+        toast.success('Video generated successfully!', {
           autoClose: 2000,
           position: toast.POSITION.TOP_RIGHT
         });
