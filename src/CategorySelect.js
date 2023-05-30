@@ -53,24 +53,6 @@
     };
 
     const history = useHistory();
-
-    // const handleCreateFolder = () => {
-    //   if (selectedCategory && folderName) {
-    //     axios.post(`http://localhost:8000/allCategories/${selectedCategory}/folders`, {
-    //       name: folderName
-    //     })
-    //       .then((response) => {
-    //         console.log(response.data);
-    //         setFolderName(folderName);
-    //         let path = `/uploadImage`;
-    //         history.push(path, { categoryId: selectedCategory, folderName: folderName });
-    //       })
-    //       .catch((error) => {
-    //         console.log('Error creating folder', error);
-    //       });
-    //   }
-                   
-    // };
     
 
     
@@ -97,7 +79,12 @@ const handleCreateFolder = () => {
             const folders = response.data;
             const existingFolder = folders.find(folder => folder.name === folderName);
             if (existingFolder) {
-              toast.error('Folder name already exists!');
+              toast.warning('File create / Folder name already exists!',
+              {
+                autoClose: 400,
+                position: toast.POSITION.TOP_RIGHT
+              }
+              );
             }
           })
           .catch((error) => {
@@ -185,13 +172,6 @@ const handleCreateFolder = () => {
       </div>
     </div>
     <div>
-    {/* <label htmlFor="images">Select Images:</label> */}
-      {/* <input id="images" type="file" multiple onChange={handleFileSelect} />
-      <br />
-      <button onClick={handleUpload}>Upload</button>
-      <br />
-      <p>{uploadStatus}</p>
-      <button onClick={handleGetCategories}>Refresh Categories</button> */}
     </div>
   </>
   );

@@ -112,7 +112,6 @@ const UploadImage = (props) => {
       const response = await axios.post('http://localhost:8000/uploadVideos', formData);
 
       if (response.status === 200) {
-        alert('File uploaded successfully.');
         toast.success('Video Uploaded Successfully!', {
           autoClose: 2000,
           position: toast.POSITION.TOP_RIGHT
@@ -201,12 +200,12 @@ const UploadImage = (props) => {
       if (response.status === 200) {
         const data = response.data;
         setResultMessage(data.message);
-        window.location.reload();
-
+        
         toast.success('Video merged Successfully :)!', {
           autoClose: 2000,
           position: toast.POSITION.TOP_RIGHT
         });
+        window.location.reload();
 
       } else {
         setErrorMessage('An error occurred while merging the videos.');
@@ -232,8 +231,14 @@ const UploadImage = (props) => {
   // Handle video deletion
   const handleDeleteVideo = (videoName) => {
     axios.delete(`http://localhost:8000/videos/${videoName}`)
-      .then(() => setVideos(videos.filter(video => video.name !== videoName)))
-      .catch(error => console.error(error));
+      .then(() => {
+        setVideos(videos.filter(video => video.name !== videoName));
+        toast.success('Video deleted successfully!');
+      })
+      .catch(error => {
+        console.error(error);
+        toast.error('Failed to delete video.');
+      });
   }
 
   // Handle "finish" button click
@@ -292,7 +297,6 @@ const UploadImage = (props) => {
                     </button>
                   </div>
                   <p>{uploadStatus}</p>
-                  {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
                 </div>
               </div>
             </div>
@@ -329,7 +333,6 @@ const UploadImage = (props) => {
                     </button>
                   </div>
                   <p>{uploadStatus}</p>
-                  {/* <button onClick={handleGetCategories} id='upImgLoad'>Refresh Categories</button> */}
                 </div>
               </div>
             </div>
@@ -361,19 +364,8 @@ const UploadImage = (props) => {
         </div>
       </div>
       <div className="mb-3">
-        {/* <label htmlFor="audio-input" className="form-label" id='selectAudio'>Select an audio file</label> */}
-        {/* <input className="form-control" id="audio-input" type="file" accept="audio/*" onChange={handleAudioSelect} /> */}
         <div className="mb-3">
           <div className="text-center my-3">
-            {/* <label>
-              <h4>FPS:</h4>
-              <input
-                type="number"
-                id="frame"
-                value={fps}
-                onChange={(event) => setFps(event.target.value)}
-              />
-            </label> */}
             <p class="steph" style={{ textDecoration: 'underline' }}>Step 3:</p>
             <button className="button my-2" onClick={handleVideoGen} id="addF">
               <span>Add Frame </span>

@@ -1,0 +1,7 @@
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008390417-453184897.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008390419-560288691.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008442880-462143933.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008442880-707581557.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008442889-990165024.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008504006-806146314.jpeg'
+file 'C:\Users\tiwar\OneDrive\Desktop\copy-app\copy-nrsc-app\backend\public\images\646f2f9e70ed3ea63fcda969\nusc\1685008504007-345236462.jpeg'

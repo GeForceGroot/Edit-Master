@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import CategorySelect from './CategorySelect';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SetCategory = () => {
 
   //  route 1 : To add new category in database
@@ -17,7 +18,7 @@ const SetCategory = () => {
         setCategory('');
         window.location.reload();
         toast.success('New Category Added Successfully!', {
-          autoClose: 2000,
+          autoClose: 1000000,
           position: toast.POSITION.TOP_RIGHT
         });
       })
