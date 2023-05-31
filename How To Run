@@ -7,3 +7,8 @@
 Tools Required 
 1. VsCode
 2. MongoDb Compass
+3. ffmpeg 
+
+
+
+Download ffmpeg version and add bin path of ffmpeg to "Edit system enviorment variable".

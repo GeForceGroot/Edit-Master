@@ -15,30 +15,10 @@ const { count } = require('console');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const app = express();
-// const groupName = 'NodeJS'
-// exec(`net localgroup ${groupName} Tiwar /add`, (err, stdout, stderr) => {
-//   if (err) {
-//     console.error(`Error executing command: ${err}`);
-//     return;
-//   }
-
-//   if (stderr) {
-//     console.error(`Command returned an error: ${stderr}`);
-//     return;
-//   }
-
-//   console.log(`Group '${groupName}' created`);
-// });
 
 // Deal to frontend and backend
 
 app.use(cors());
-
-
-
-
-
-
 
 
 
@@ -556,6 +536,77 @@ app.post('/allCategories/:categoryId/folders/:folderName/generateVideo', (req, r
 
 
 
+// app.post('/convert_videos', async (req, res) => {
+//   try {
+//     // Path for inserting the video
+//     const videosPath = `./uploads`;
+//     const outputFilePath = `videos/${Date.now()}-output.mp4`
+//     const fileListPath = path.join(videosPath, 'filelist.txt');
+//     const audioFilePath = `./audio/background-music.mp3`;
+
+//     // Create an array of video file paths in the specified folder
+//     const fileList = fs.readdirSync(videosPath)
+
+//     // filter all videos types and sort them by serial number
+//       .filter((file) => file.endsWith('.mp4')) 
+//       .sort((a, b) => parseInt(a.match(/\d+/)) - parseInt(b.match(/\d+/)))
+
+//     // create an array of video file paths with their serial number
+//     const filesWithPath = fileList.map(file => ({
+//       path: path.join(videosPath, file),
+//       serialNumber: parseInt(file.match(/\d+/))
+//     }))
+
+//     // create a string with the paths of the videos in order of their serial number
+//     const fileListString = filesWithPath.map(file => `file '${file.path}'`).join('\n')
+
+//     // create a filter complex to merge audio with video
+//     const filterComplex = `-filter_complex "[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]" -map "[aout]"`;
+
+//     // write the file list to the filelist.txt
+//     fs.writeFileSync(fileListPath, fileListString); 
+
+//     const child = spawn('ffmpeg', ['-safe', '0', '-f', 'concat', '-i', fileListPath, '-i', './audio/background-music.mp3', '-filter_complex', '[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]', '-map', '0:v', '-map', '[aout]', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-y', outputFilePath]);
+
+
+//     // Listen for errors from the FFmpeg process
+//     child.stderr.on('data', (data) => {
+//       console.error(`stderr: ${data}`);
+//     });
+
+//     // Listen for completion of the FFmpeg process
+//     child.on('close', (code) => {
+//       if (code === 0) {
+//         console.log(`FFmpeg process exited with code ${code}`);
+
+//         // Respond to the client with a success message
+//         res.json({
+//           message: `Videos in ${videosPath} have been concatenated successfully.`,
+//           outputFilePath
+//         });
+//       } else {
+//         console.error(`FFmpeg process exited with code ${code}`);
+
+//         // Respond to the client with an error message
+//         res.status(500).json({
+//           message: 'An error occurred while concatenating the videos.',
+//         });
+//       }
+      
+//       // remove the filelist.txt
+//       fs.unlinkSync(fileListPath);
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     // Respond to the client with an error message
+//     res.status(500).json({
+//       message: 'An error occurred while concatenating the videos.',
+//     });
+//   }
+// });
+
+
+
 app.post('/convert_videos', async (req, res) => {
   try {
     // Path for inserting the video
@@ -566,9 +617,7 @@ app.post('/convert_videos', async (req, res) => {
 
     // Create an array of video file paths in the specified folder
     const fileList = fs.readdirSync(videosPath)
-
-    // filter all videos types and sort them by serial number
-      .filter((file) => file.endsWith('.mp4')) 
+      .filter((file) => file.endsWith('.mp4'))
       .sort((a, b) => parseInt(a.match(/\d+/)) - parseInt(b.match(/\d+/)))
 
     // create an array of video file paths with their serial number
@@ -580,14 +629,25 @@ app.post('/convert_videos', async (req, res) => {
     // create a string with the paths of the videos in order of their serial number
     const fileListString = filesWithPath.map(file => `file '${file.path}'`).join('\n')
 
-    // create a filter complex to merge audio with video
-    const filterComplex = `-filter_complex "[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]" -map "[aout]"`;
+    // create a filter complex to merge audio with video and decrease the volume
+    const filterComplex = `[0:a]aformat=fltp:44100:stereo,volume=0.2[a1];[1:a]aformat=fltp:44100:stereo,volume=0.2[a2];[a1][a2]amerge=inputs=2[aout]`;
 
     // write the file list to the filelist.txt
-    fs.writeFileSync(fileListPath, fileListString); 
+    fs.writeFileSync(fileListPath, fileListString);
 
-    const child = spawn('ffmpeg', ['-safe', '0', '-f', 'concat', '-i', fileListPath, '-i', './audio/background-music.mp3', '-filter_complex', '[0:a]aformat=fltp:44100:stereo, volume=0.5[a1];[1:a]aformat=fltp:44100:stereo, volume=0.5[a2];[a1][a2]amerge=inputs=2[aout]', '-map', '0:v', '-map', '[aout]', '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '22', '-y', outputFilePath]);
-
+    const child = spawn('ffmpeg', [
+      '-safe', '0',
+      '-f', 'concat',
+      '-i', fileListPath,
+      '-i', './audio/background-music.mp3',
+      '-filter_complex', filterComplex,
+      '-map', '0:v',
+      '-map', '[aout]',
+      '-c:v', 'libx264',
+      '-preset', 'ultrafast',
+      '-crf', '22',
+      '-y', outputFilePath
+    ]);
 
     // Listen for errors from the FFmpeg process
     child.stderr.on('data', (data) => {
@@ -612,7 +672,7 @@ app.post('/convert_videos', async (req, res) => {
           message: 'An error occurred while concatenating the videos.',
         });
       }
-      
+
       // remove the filelist.txt
       fs.unlinkSync(fileListPath);
     });
@@ -624,6 +684,7 @@ app.post('/convert_videos', async (req, res) => {
     });
   }
 });
+
 
 
 

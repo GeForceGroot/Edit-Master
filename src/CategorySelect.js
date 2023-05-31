@@ -79,7 +79,7 @@ const handleCreateFolder = () => {
             const folders = response.data;
             const existingFolder = folders.find(folder => folder.name === folderName);
             if (existingFolder) {
-              toast.warning('File create / Folder name already exists!',
+              toast.warning('File created / Folder name already exists!',
               {
                 autoClose: 400,
                 position: toast.POSITION.TOP_RIGHT
